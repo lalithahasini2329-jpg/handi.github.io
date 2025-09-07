@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Handi Hut - Premium Catering Services</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+        
+        :root {
+            --primary-orange: #ff6b35;
+            --secondary-orange: #f7931e;
+            --accent-orange: #ff8c42;
+            --dark-bg: #0a0a0a;
+            --darker-bg: #050505;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --success-green: #10b981;
+            --warning-yellow: #f59e0b;
+            --error-red: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+            cursor: none;
+        }
+
+        /* Extreme Animated Background with Neural Network */
+        .neural-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(circle at 20% 80%, rgba(255, 107, 53, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(247, 147, 30, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(255, 140, 66, 0.08) 0%, transparent 50%);
+        }
+
+        .neural-network {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        /* Custom Cursor */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.8;
+            transition: all 0.1s ease;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+        }
+
+        .cursor-trail {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 107, 53, 0.4);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.2s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 60px;
+            padding: 15px 35px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container:hover {
+            transform: translateX(-50%) translateY(-3px) scale(1.02);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 30px 60px rgba(255, 107, 53, 0.2);
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--primary-orange);
+        }
+
+        .nav-links a.active {
+            background: var(--primary-orange);
+            color: white;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 120px 20px 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        /* Contact Info Section */
+        .contact-info {
+            position: sticky;
+            top: 140px;
+        }
+
+        .contact-header {
+            margin-bottom: 50px;
+        }
+
+        .contact-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-orange) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        .contact-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .contact-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .contact-method {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .contact-method::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .contact-method:hover::before {
+            left: 100%;
+        }
+
+        .contact-method:hover {
+            transform: translateY(-5px) scale(1.02);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 107, 53, 0.4);
+            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.2);
+        }
+
+        .method-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+            display: block;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        .method-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--primary-orange);
+        }
+
+        .method-info {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .method-info a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .method-info a:hover {
+            color: var(--primary-orange);
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 20px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .social-link:hover {
+            background: var(--primary-orange);
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.4);
+        }
+
+        /* Contact Form */
+        .contact-form-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px) saturate(150%);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-form-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                transparent 0deg,
+                rgba(255, 107, 53, 0.05) 45deg,
+                transparent 90deg,
+                rgba(247, 147, 30, 0.05) 135deg,
+                transparent 180deg
+            );
+            animation: rotate 20s linear infinite;
+        }
+
+        .form-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .form-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px;
+            font-size: 16px;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-orange);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 
+                0 0 0 4px rgba(255, 107, 53, 0.1),
+                0 10px 30px rgba(255, 107, 53, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .form-group label {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 16px;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            background: var(--dark-bg);
+            padding: 0 8px;
+            z-index: 2;
+        }
+
+        .form-group input:focus + label,
+        .form-group input:not(:placeholder-shown) + label,
+        .form-group select:focus + label,
+        .form-group select:not([value=""]) + label,
+        .form-group textarea:focus + label,
+        .form-group textarea:not(:placeholder-shown) + label {
+            top: -8px;
+            font-size: 14px;
+            color: var(--primary-orange);
+        }
+
+        /* Input Validation States */
+        .form-group input.valid {
+            border-color: var(--success-green);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .form-group input.invalid {
+            border-color: var(--error-red);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
+            color: white;
+            border: none;
+            padding: 22px;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.5);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-orange), var(--secondary-orange));
+            border-radius: 2px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        /* Map Container */
+        .map-container {
+            grid-column: 1 / -1;
+            height: 300px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-placeholder {
+            color: var(--text-secondary);
+            font-size: 18px;
+            text-align: center;
+        }
+
+        /* Animations */
+        @keyframes titleGlow {
+            0%, 100% {
+                filter: drop-shadow(0 0 10px rgba(255, 107, 53, 0.3));
+            }
+            50% {
+                filter: drop-shadow(0 0 20px rgba(255, 107, 53, 0.6));
+            }
+        }
+
+        @keyframes iconFloat {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.8;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 100px 20px 40px;
+            }
+
+            .contact-info {
+                position: static;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                cursor: auto;
+            }
+
+            .custom-cursor,
+            .cursor-trail {
+                display: none;
+            }
+
+            .contact-form-container {
+                padding: 30px 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--secondary-orange), var(--accent-orange));
+            background-clip: content-box;
+        }
+
+        ::selection {
+            background: var(--primary-orange);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="neural-bg"></div>
+    <canvas class="neural-network" id="neuralCanvas"></canvas>
+    <div class="custom-cursor" id="customCursor"></div>
+    <div class="cursor-trail" id="cursorTrail"></div>
+
+    <nav class="nav-container">
+        <div class="nav-content">
+            <div class="logo">🍛 Handi Hut</div>
+            <ul class="nav-links">
+                <li><a href="main.html">Home</a></li>
+                <li><a href="cater.html">Services</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="#contact;" class="active">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="contact-info">
+            <div class="contact-header">
+                <h1 class="contact-title">Let's Create Something Extraordinary</h1>
+                <p class="contact-subtitle">
+                    Ready to elevate your event with premium catering? Our culinary experts are here to bring your vision to life with exceptional flavors and flawless service.
+                </p>
+            </div>
+
+            <div class="contact-methods">
+                <div class="contact-method" onclick="initiateCall()">
+                    <span class="method-icon">📞</span>
+                    <div class="method-title">Phone</div>
+                    <div class="method-info">
+                        <a href="tel:+15551234567">+1 (555) 123-4567</a><br>
+                        Mon-Sun: 8:00 AM - 10:00 PM
+                    </div>
+                </div>
+
+                <div class="contact-method" onclick="initiateEmail()">
+                    <span class="method-icon">✉️</span>
+                    <div class="method-title">Email</div>
+                    <div class="method-info">
+                        <a href="mailto:events@handihut.com">events@handihut.com</a><br>
+                        Response within 2 hours
+                    </div>
+                </div>
+
+                <div class="contact-method" onclick="showLocation()">
+                    <span class="method-icon">📍</span>
+                    <div class="method-title">Location</div>
+                    <div class="method-info">
+                        123 Culinary Street<br>
+                        Hyderabad, Telangana 500001<br>
+                        India
+                    </div>
+                </div>
+
+                <div class="contact-method" onclick="initiateWhatsApp()">
+                    <span class="method-icon">💬</span>
+                    <div class="method-title">WhatsApp</div>
+                    <div class="method-info">
+                        <a href="https://wa.me/15551234567">+1 (555) 123-4567</a><br>
+                        Instant messaging available
+                    </div>
+                </div>
+            </div>
+
+            <div class="social-links">
+                <a href="#" class="social-link" title="Facebook">📘</a>
+                <a href="#" class="social-link" title="Instagram">📷</a>
+                <a href="#" class="social-link" title="Twitter">🐦</a>
+                <a href="#" class="social-link" title="LinkedIn">💼</a>
+                <a href="#" class="social-link" title="YouTube">🎥</a>
+            </div>
+        </div>
+
+        <div class="contact-form-container">
+            <div class="form-content">
+                <h2 class="form-title">Get Your Custom Quote</h2>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+
+                <form id="contactForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <input type="text" id="firstName" name="firstName" placeholder=" " required>
+                            <label for="firstName">First Name</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="lastName" name="lastName" placeholder=" " required>
+                            <label for="lastName">Last Name</label>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder=" " required>
+                            <label for="email">Email Address</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="phone" name="phone" placeholder=" " required>
+                            <label for="phone">Phone Number</label>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <select id="eventType" name="eventType" required>
+                                <option value="">Select Event Type</option>
+                                <option value="wedding">Wedding Celebration</option>
+                                <option value="corporate">Corporate Event</option>
+                                <option value="birthday">Birthday Party</option>
+                                <option value="anniversary">Anniversary</option>
+                                <option value="festival">Festival/Community</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <label for="eventType">Event Type</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" id="guests" name="guests" placeholder=" " min="10" max="5000" required>
+                            <label for="guests">Number of Guests</label>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <input type="date" id="eventDate" name="eventDate" placeholder=" " required>
+                            <label for="eventDate">Event Date</label>
+                        </div>
+                        <div class="form-group">
+                            <select id="budget" name="budget" required>
+                                <option value="">Select Budget Range</option>
+                                <option value="1000-2500">$1,000 - $2,500</option>
+                                <option value="2500-5000">$2,500 - $5,000</option>
+                                <option value="5000-10000">$5,000 - $10,000</option>
+                                <option value="10000+">$10,000+</option>
+                            </select>
+                            <label for="budget">Budget Range</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <textarea id="message" name="message" placeholder=" " rows="5" required></textarea>
+                        <label for="message">Tell us about your event vision</label>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        Send Inquiry ✨
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="map-container">
+            <div class="map-placeholder">
+                <div>🗺️ Interactive Map Coming Soon</div>
+                <small>123 Culinary Street, Hyderabad, Telangana 500001</small>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Audio Context for Sound Effects
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        let cursorTrailElements = [];
+
+        function playTone(frequency, duration, type = 'sine', volume = 0.1) {
+            try {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = frequency;
+                oscillator.type = type;
+                
+                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(volume, audioContext.currentTime + 0.01);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + duration);
+            } catch (error) {
+                console.log('Audio not supported');
+            }
+        }
+
+        // Haptic Feedback
+        function hapticFeedback(pattern = 50) {
+            if ('vibrate' in navigator) {
+                navigator.vibrate(pattern);
+            }
+        }
+
+        // Neural Network Background
+        function initNeuralNetwork() {
+            const canvas = document.getElementById('neuralCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            
+            const nodes = [];
+            const connections = [];
+            const nodeCount = 50;
+            
+            // Create nodes
+            for (let i = 0; i < nodeCount; i++) {
+                nodes.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    radius: Math.random() * 3 + 1,
+                    opacity: Math.random() * 0.5 + 0.2
+                });
+            }
+            
+            function updateNetwork() {
+                nodes.forEach(node => {
+                    node.x += node.vx;
+                    node.y += node.vy;
+                    
+                    if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
+                    if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
+                });
+                
+                // Create connections between nearby nodes
+                connections.length = 0;
+                for (let i = 0; i < nodes.length; i++) {
+                    for (let j = i + 1; j < nodes.length; j++) {
+                        const dx = nodes[i].x - nodes[j].x;
+                        const dy = nodes[i].y - nodes[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < 150) {
+                            connections.push({
+                                node1: nodes[i],
+                                node2: nodes[j],
+                                opacity: (150 - distance) / 150 * 0.3
+                            });
+                        }
+                    }
+                }
+            }
+            
+            function drawNetwork() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw connections
+                connections.forEach(connection => {
+                    ctx.save();
+                    ctx.strokeStyle = `rgba(255, 107, 53, ${connection.opacity})`;
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(connection.node1.x, connection.node1.y);
+                    ctx.lineTo(connection.node2.x, connection.node2.y);
+                    ctx.stroke();
+                    ctx.restore();
+                });
+                
+                // Draw nodes
+                nodes.forEach(node => {
+                    ctx.save();
+                    ctx.fillStyle = `rgba(255, 107, 53, ${node.opacity})`;
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = `rgba(255, 107, 53, ${node.opacity})`;
+                    ctx.beginPath();
+                    ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                });
+            }
+            
+            function animate() {
+                updateNetwork();
+                drawNetwork();
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+        }
+
+        // Custom Cursor System
+        function initCustomCursor() {
+            const cursor = document.getElementById('customCursor');
+            const cursorTrail = document.getElementById('cursorTrail');
+            let mouseX = 0, mouseY = 0;
+            let trailX = 0, trailY = 0;
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                
+                cursor.style.left = mouseX + 'px';
+                cursor.style.top = mouseY + 'px';
+            });
+
+            // Animated trail
+            function updateTrail() {
+                trailX += (mouseX - trailX) * 0.1;
+                trailY += (mouseY - trailY) * 0.1;
+                
+                cursorTrail.style.left = trailX + 'px';
+                cursorTrail.style.top = trailY + 'px';
+                
+                requestAnimationFrame(updateTrail);
+            }
+            updateTrail();
+
+            // Interactive elements
+            const interactives = document.querySelectorAll('.contact-method, .social-link, .submit-btn, input, select, textarea');
+            
+            interactives.forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    cursor.style.width = '40px';
+                    cursor.style.height = '40px';
+                    cursor.style.background = 'linear-gradient(135deg, var(--primary-orange), var(--secondary-orange))';
+                    cursor.style.boxShadow = '0 0 30px rgba(255, 107, 53, 0.8)';
+                    playTone(440, 0.1, 'sine', 0.05);
+                    hapticFeedback(30);
+                });
+                
+                element.addEventListener('mouseleave', () => {
+                    cursor.style.width = '20px';
+                    cursor.style.height = '20px';
+                    cursor.style.background = 'linear-gradient(135deg, var(--primary-orange), var(--secondary-orange))';
+                    cursor.style.boxShadow = '0 0 20px rgba(255, 107, 53, 0.5)';
+                });
+            });
+        }
+
+        // Form Progress Tracking
+        function updateProgress() {
+            const form = document.getElementById('contactForm');
+            const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+            const progressFill = document.getElementById('progressFill');
+            
+            let completed = 0;
+            inputs.forEach(input => {
+                if (input.type === 'email') {
+                    if (input.value && input.checkValidity()) completed++;
+                } else if (input.value.trim() !== '') {
+                    completed++;
+                }
+            });
+            
+            const progress = (completed / inputs.length) * 100;
+            progressFill.style.width = progress + '%';
+            
+            if (progress === 100) {
+                playTone(523, 0.3, 'sine', 0.1);
+                hapticFeedback([50, 100, 50]);
+            }
+        }
+
+        // Real-time Form Validation
+        function initFormValidation() {
+            const inputs = document.querySelectorAll('input, select, textarea');
+            
+            inputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    validateField(input);
+                    updateProgress();
+                });
+                
+                input.addEventListener('blur', () => {
+                    validateField(input);
+                });
+                
+                input.addEventListener('focus', () => {
+                    playTone(330, 0.1, 'triangle', 0.03);
+                    input.style.transform = 'translateY(-2px) scale(1.02)';
+                });
+                
+                input.addEventListener('blur', () => {
+                    input.style.transform = 'translateY(0px) scale(1)';
+                });
+            });
+        }
+
+        function validateField(field) {
+            const value = field.value.trim();
+            
+            if (field.hasAttribute('required') && value === '') {
+                setFieldState(field, 'neutral');
+                return;
+            }
+            
+            let isValid = true;
+            
+            switch (field.type) {
+                case 'email':
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    isValid = emailRegex.test(value);
+                    break;
+                case 'tel':
+                    const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+                    isValid = phoneRegex.test(value.replace(/\s/g, ''));
+                    break;
+                case 'number':
+                    isValid = !isNaN(value) && value >= field.min && value <= field.max;
+                    break;
+                case 'date':
+                    const selectedDate = new Date(value);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    isValid = selectedDate >= today;
+                    break;
+                default:
+                    isValid = value.length >= 2;
+            }
+            
+            if (field.tagName === 'SELECT') {
+                isValid = value !== '';
+            }
+            
+            if (field.tagName === 'TEXTAREA') {
+                isValid = value.length >= 10;
+            }
+            
+            setFieldState(field, isValid ? 'valid' : 'invalid');
+            
+            if (isValid && value !== '') {
+                playTone(523, 0.1, 'sine', 0.03);
+            } else if (!isValid && value !== '') {
+                playTone(220, 0.1, 'square', 0.03);
+            }
+        }
+
+        function setFieldState(field, state) {
+            field.classList.remove('valid', 'invalid', 'neutral');
+            if (state !== 'neutral') {
+                field.classList.add(state);
+            }
+        }
+
+        // Contact Method Interactions
+        function initiateCall() {
+            playTone(660, 0.2, 'sine', 0.1);
+            hapticFeedback([100, 50, 100]);
+            showNotification('📞 Initiating call...', 'Opening phone dialer');
+            setTimeout(() => {
+                window.location.href = 'tel:+15551234567';
+            }, 500);
+        }
+
+        function initiateEmail() {
+            playTone(440, 0.2, 'triangle', 0.1);
+            hapticFeedback(100);
+            showNotification('✉️ Opening email...', 'Composing your message');
+            setTimeout(() => {
+                window.location.href = 'mailto:events@handihut.com?subject=Catering Inquiry&body=Hello Handi Hut team,%0D%0A%0D%0AI am interested in your catering services for my upcoming event.%0D%0A%0D%0APlease contact me to discuss details.%0D%0A%0D%0AThank you!';
+            }, 500);
+        }
+
+        function showLocation() {
+            playTone(550, 0.2, 'sine', 0.1);
+            hapticFeedback([50, 50, 50]);
+            showNotification('📍 Location details', '123 Culinary Street, Hyderabad, Telangana 500001');
+        }
+
+        function initiateWhatsApp() {
+            playTone(480, 0.2, 'triangle', 0.1);
+            hapticFeedback([100, 100]);
+            showNotification('💬 Opening WhatsApp...', 'Starting conversation');
+            setTimeout(() => {
+                window.open('https://wa.me/15551234567?text=Hello%20Handi%20Hut!%20I%27m%20interested%20in%20your%20catering%20services.', '_blank');
+            }, 500);
+        }
+
+        // Notification System
+        function showNotification(title, message, duration = 3000) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 30px;
+                background: var(--glass-bg);
+                backdrop-filter: blur(25px);
+                border: 1px solid var(--glass-border);
+                border-radius: 16px;
+                padding: 20px;
+                color: var(--text-primary);
+                z-index: 10000;
+                transform: translateX(400px);
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+                max-width: 300px;
+            `;
+            
+            notification.innerHTML = `
+                <div style="font-weight: 600; margin-bottom: 5px; color: var(--primary-orange);">${title}</div>
+                <div style="font-size: 14px; color: var(--text-secondary);">${message}</div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0px)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(400px)';
+                setTimeout(() => notification.remove(), 400);
+            }, duration);
+        }
+
+        // Form Submission with Advanced Effects
+        function initFormSubmission() {
+            const form = document.getElementById('contactForm');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+                
+                // Validate all fields
+                const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+                let allValid = true;
+                
+                inputs.forEach(input => {
+                    validateField(input);
+                    if (!input.classList.contains('valid')) {
+                        allValid = false;
+                    }
+                });
+                
+                if (!allValid) {
+                    playTone(200, 0.3, 'sawtooth', 0.1);
+                    hapticFeedback([100, 100, 100]);
+                    showNotification('❌ Validation Error', 'Please fill all required fields correctly');
+                    return;
+                }
+                
+                // Start submission animation
+                const originalHTML = submitBtn.innerHTML;
+                submitBtn.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: white; animation: spin 1s linear infinite;"></div>
+                        Sending Message...
+                    </div>
+                `;
+                submitBtn.disabled = true;
+                submitBtn.style.background = 'linear-gradient(135deg, #6366f1, #8b5cf6)';
+                
+                playTone(330, 0.5, 'triangle', 0.1);
+                
+                // Simulate sending
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Success animation
+                submitBtn.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 20px; height: 20px; background: var(--success-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px;">✓</div>
+                        Message Sent Successfully!
+                    </div>
+                `;
+                submitBtn.style.background = 'linear-gradient(135deg, var(--success-green), #059669)';
+                
+                // Success sound sequence
+                playTone(523, 0.2, 'sine', 0.1);
+                setTimeout(() => playTone(659, 0.2, 'sine', 0.1), 200);
+                setTimeout(() => playTone(784, 0.4, 'sine', 0.1), 400);
+                
+                hapticFeedback([100, 50, 100, 50, 200]);
+                
+                // Confetti effect
+                createConfetti();
+                
+                // Show success modal
+                showSuccessModal(data);
+                
+                // Reset form
+                setTimeout(() => {
+                    form.reset();
+                    submitBtn.innerHTML = originalHTML;
+                    submitBtn.style.background = 'linear-gradient(135deg, var(--primary-orange), var(--secondary-orange))';
+                    submitBtn.disabled = false;
+                    updateProgress();
+                    
+                    // Reset field states
+                    const allFields = form.querySelectorAll('input, select, textarea');
+                    allFields.forEach(field => setFieldState(field, 'neutral'));
+                }, 3000);
+            });
+        }
+
+        // Confetti Effect
+        function createConfetti() {
+            const colors = ['#ff6b35', '#f7931e', '#ff8c42', '#ffffff', '#10b981'];
+            
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.cssText = `
+                    position: fixed;
+                    width: ${Math.random() * 8 + 4}px;
+                    height: ${Math.random() * 8 + 4}px;
+                    background: ${colors[Math.floor(Math.random() * colors.length)]};
+                    left: ${Math.random() * 100}vw;
+                    top: -20px;
+                    z-index: 10001;
+                    pointer-events: none;
+                    border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+                    animation: confettiFall ${3 + Math.random() * 4}s linear forwards;
+                    transform: rotate(${Math.random() * 360}deg);
+                `;
+                
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 7000);
+            }
+        }
+
+        // Success Modal
+        function showSuccessModal(data) {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.9);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+                backdrop-filter: blur(20px);
+                animation: fadeIn 0.5s ease;
+            `;
+
+            modal.innerHTML = `
+                <div style="
+                    background: linear-gradient(135deg, var(--glass-bg), rgba(255, 255, 255, 0.15));
+                    backdrop-filter: blur(30px) saturate(180%);
+                    border: 2px solid var(--success-green);
+                    border-radius: 32px;
+                    padding: 50px 40px;
+                    max-width: 600px;
+                    margin: 20px;
+                    color: var(--text-primary);
+                    text-align: center;
+                    position: relative;
+                    animation: modalSlide 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                    box-shadow: 0 40px 80px rgba(16, 185, 129, 0.3);
+                ">
+                    <div style="
+                        font-size: 60px;
+                        margin-bottom: 20px;
+                        animation: bounce 1s ease-in-out;
+                    ">🎉</div>
+                    
+                    <h2 style="
+                        font-size: 32px;
+                        margin-bottom: 15px;
+                        color: var(--success-green);
+                    ">Message Sent Successfully!</h2>
+                    
+                    <p style="
+                        font-size: 16px;
+                        color: var(--text-secondary);
+                        margin-bottom: 25px;
+                        line-height: 1.6;
+                    ">Thank you, <strong style="color: var(--primary-orange);">${data.firstName} ${data.lastName}</strong>! We've received your inquiry and will respond within 2 hours.</p>
+                    
+                    <div style="
+                        background: rgba(16, 185, 129, 0.1);
+                        border: 1px solid rgba(16, 185, 129, 0.3);
+                        border-radius: 16px;
+                        padding: 20px;
+                        margin: 20px 0;
+                        text-align: left;
+                    ">
+                        <h3 style="color: var(--success-green); margin-bottom: 10px;">📋 Your Inquiry Details:</h3>
+                        <div style="font-size: 14px; line-height: 1.5;">
+                            <div><strong>Event:</strong> ${data.eventType}</div>
+                            <div><strong>Guests:</strong> ${data.guests}</div>
+                            <div><strong>Date:</strong> ${data.eventDate}</div>
+                            <div><strong>Budget:</strong> ${data.budget}</div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="this.parentElement.parentElement.remove()" style="
+                        background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
+                        color: white;
+                        border: none;
+                        padding: 15px 30px;
+                        border-radius: 25px;
+                        font-size: 16px;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        margin-top: 10px;
+                    ">Continue Exploring 🚀</button>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            setTimeout(() => modal.remove(), 10000);
+        }
+
+        // Set minimum date to today
+        document.getElementById('eventDate').min = new Date().toISOString().split('T')[0];
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', () => {
+            // Enable audio on first interaction
+            document.addEventListener('click', () => {
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+            }, { once: true });
+
+            initNeuralNetwork();
+            initCustomCursor();
+            initFormValidation();
+            initFormSubmission();
+            updateProgress();
+        });
+
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+            
+            @keyframes confettiFall {
+                0% { 
+                    transform: translateY(0px) rotate(0deg); 
+                    opacity: 1; 
+                }
+                100% { 
+                    transform: translateY(100vh) rotate(720deg); 
+                    opacity: 0; 
+                }
+            }
+            
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            
+            @keyframes modalSlide {
+                from { 
+                    transform: scale(0.8) translateY(50px); 
+                    opacity: 0; 
+                }
+                to { 
+                    transform: scale(1) translateY(0px); 
+                    opacity: 1; 
+                }
+            }
+            
+            @keyframes bounce {
+                0%, 20%, 50%, 80%, 100% {
+                    transform: translateY(0);
+                }
+                40% {
+                    transform: translateY(-20px);
+                }
+                60% {
+                    transform: translateY(-10px);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

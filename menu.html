@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handi Hut - Restaurant Menu</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-orange: #ff8c00;
+            --light-orange: #ffa500;
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --text-dark: #333333;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--white) 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            background: linear-gradient(45deg, var(--primary-orange), var(--light-orange)) !important;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.8rem;
+            color: white !important;
+        }
+
+        .nav-link {
+            color: white !important;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            color: #ffeb3b !important;
+            transform: translateY(-2px);
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(255,140,0,0.8), rgba(255,255,255,0.9)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23ff8c00" width="1200" height="400"/><circle fill="%23ffffff" opacity="0.1" cx="200" cy="200" r="100"/><circle fill="%23ffffff" opacity="0.1" cx="800" cy="100" r="150"/><circle fill="%23ffffff" opacity="0.1" cx="1000" cy="300" r="80"/></svg>');
+            padding: 100px 0;
+            text-align: center;
+            color: white;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 50px 0;
+        }
+
+        .menu-card {
+            background: linear-gradient(135deg, white 0%, #fff8f0 100%);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(255,140,0,0.2);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255,140,0,0.3);
+            border-color: var(--primary-orange);
+        }
+
+        .menu-card h3 {
+            color: var(--primary-orange);
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .menu-card .icon {
+            font-size: 3rem;
+            color: var(--primary-orange);
+            margin-bottom: 20px;
+        }
+
+        .page-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .menu-item {
+            background: linear-gradient(135deg, #fff 0%, #fff8f0 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 5px solid var(--primary-orange);
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .menu-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 25px rgba(255,140,0,0.2);
+        }
+
+        .menu-item h5 {
+            color: var(--primary-orange);
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .menu-item .price {
+            color: var(--primary-orange);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .menu-item .description {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .category-tabs {
+            background: linear-gradient(45deg, var(--primary-orange), var(--light-orange));
+            border-radius: 50px;
+            padding: 5px;
+            margin: 20px 0;
+        }
+
+        .category-tabs .btn {
+            border-radius: 25px;
+            border: none;
+            color: white;
+            font-weight: 500;
+            margin: 0 5px;
+            transition: all 0.3s;
+        }
+
+        .category-tabs .btn.active {
+            background: white;
+            color: var(--primary-orange);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .search-bar {
+            background: white;
+            border-radius: 50px;
+            padding: 15px 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 2px solid var(--primary-orange);
+        }
+
+        .search-bar:focus {
+            outline: none;
+            box-shadow: 0 8px 30px rgba(255,140,0,0.3);
+        }
+
+        .badge {
+            background: linear-gradient(45deg, var(--primary-orange), var(--light-orange));
+            border-radius: 15px;
+            font-size: 0.7rem;
+            padding: 5px 10px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .back-btn {
+            background: linear-gradient(45deg, var(--primary-orange), var(--light-orange));
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255,140,0,0.3);
+            color: white;
+        }
+
+        .section-header {
+            background: linear-gradient(45deg, var(--primary-orange), var(--light-orange));
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .cuisine-filter {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .cuisine-filter .btn {
+            margin: 0 10px;
+            border-radius: 25px;
+            padding: 10px 25px;
+            border: 2px solid var(--primary-orange);
+            color: var(--primary-orange);
+            background: white;
+            transition: all 0.3s;
+        }
+
+        .cuisine-filter .btn.active,
+        .cuisine-filter .btn:hover {
+            background: var(--primary-orange);
+            color: white;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#" onclick="showHome()">
+                <i class="fas fa-utensils me-2"></i>Handi Hut
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showHome()">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="main.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <div class="container-fluid" style="padding-top: 80px;">
+        
+        <!-- Home Page -->
+        <div id="home-page">
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <div class="container">
+                    <h1 class="display-4 mb-4">Welcome to Handi Hut</h1>
+                    <p class="lead mb-4">Authentic Indian Cuisine with Modern Flavors</p>
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <input type="text" id="globalSearch" class="form-control search-bar" placeholder="Search for dishes, cuisines, or categories...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Menu Categories Grid -->
+            <div class="container">
+                <div class="menu-grid">
+                    <div class="menu-card" onclick="showCategory('tiffins')">
+                        <div class="icon text-center">
+                            <i class="fas fa-bowl-food"></i>
+                        </div>
+                        <h3>Tiffins</h3>
+                        <p>Traditional South Indian breakfast items including dosa, idli, vada, and more delicious options.</p>
+                        <span class="badge">25+ Items</span>
+                    </div>
+
+                    <div class="menu-card" onclick="showCategory('soups')">
+                        <div class="icon text-center">
+                            <i class="fas fa-soup"></i>
+                        </div>
+                        <h3>Soups</h3>
+                        <p>Hot and flavorful soups from various cuisines to warm your soul.</p>
+                        <span class="badge">22+ Items</span>
+                    </div>
+
+                    <div class="menu-card" onclick="showCategory('starters')">
+                        <div class="icon text-center">
+                            <i class="fas fa-pepper-hot"></i>
+                        </div>
+                        <h3>Starters</h3>
+                        <p>Appetizing starters and finger foods to begin your meal perfectly.</p>
+                        <span class="badge">28+ Items</span>
+                    </div>
+
+                    <div class="menu-card" onclick="showCategory('maincourse')">
+                        <div class="icon text-center">
+                            <i class="fas fa-drumstick-bite"></i>
+                        </div>
+                        <h3>Main Course</h3>
+                        <p>Hearty main dishes featuring authentic Indian and continental preparations.</p>
+                        <span class="badge">30+ Items</span>
+                    </div>
+
+                    <div class="menu-card" onclick="showCategory('continental')">
+                        <div class="icon text-center">
+                            <i class="fas fa-hamburger"></i>
+                        </div>
+                        <h3>Continental</h3>
+                        <p>International cuisine with pasta, burgers, pizzas, and western delicacies.</p>
+                        <span class="badge">24+ Items</span>
+                    </div>
+
+                    <div class="menu-card" onclick="showCategory('snacks')">
+                        <div class="icon text-center">
+                            <i class="fas fa-cookie-bite"></i>
+                        </div>
+                        <h3>Snacks</h3>
+                        <p>Quick bites and tea-time snacks for your cravings.</p>
+                        <span class="badge">26+ Items</span>
+                    </div>
+
+                    <div class="menu-card" onclick="showCategory('rotinaan')">
+                        <div class="icon text-center">
+                            <i class="fas fa-bread-slice"></i>
+                        </div>
+                        <h3>Roti & Naan</h3>
+                        <p>Fresh breads from tandoor and tawa including various types of rotis and naans.</p>
+                        <span class="badge">20+ Items</span>
+                    </div>
+
+                    <div class="menu-card" onclick="showCategory('curries')">
+                        <div class="icon text-center">
+                            <i class="fas fa-mortar-pestle"></i>
+                        </div>
+                        <h3>Curries</h3>
+                        <p>Rich and flavorful curries from different regions of India.</p>
+                        <span class="badge">32+ Items</span>
+                    </div>
+
+                    <div class="menu-card" onclick="showCategory('beverages')">
+                        <div class="icon text-center">
+                            <i class="fas fa-coffee"></i>
+                        </div>
+                        <h3>Beverages</h3>
+                        <p>Refreshing drinks, juices, teas, and traditional Indian beverages.</p>
+                        <span class="badge">25+ Items</span>
+                    </div>
+
+                    <div class="menu-card" onclick="showCategory('desserts')">
+                        <div class="icon text-center">
+                            <i class="fas fa-birthday-cake"></i>
+                        </div>
+                        <h3>Desserts</h3>
+                        <p>Sweet endings with traditional Indian sweets and modern desserts.</p>
+                        <span class="badge">23+ Items</span>
+                    </div>
+
+                    <div class="menu-card" onclick="showCategory('icecreams')">
+                        <div class="icon text-center">
+                            <i class="fas fa-ice-cream"></i>
+                        </div>
+                        <h3>Ice Creams</h3>
+                        <p>Cool and creamy ice creams in various flavors and combinations.</p>
+                        <span class="badge">21+ Items</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Pages -->
+        <div id="category-pages" class="hidden">
+            <div class="container">
+                <div class="page-content">
+                    <button class="back-btn mb-4" onclick="showHome()">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Menu
+                    </button>
+                    
+                    <div id="category-content">
+                        <!-- Category content will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Menu data structure
+        const menuData = {
+            tiffins: {
+                title: "Tiffins",
+                icon: "fas fa-bowl-food",
+                categories: {
+                    veg: {
+                        south: [
+                            {name: "Plain Dosa", price: "₹80", description: "Crispy rice and lentil crepe served with coconut chutney"},
+                            {name: "Masala Dosa", price: "₹120", description: "Dosa filled with spiced potato curry"},
+                            {name: "Rava Dosa", price: "₹100", description: "Semolina dosa with onions and spices"},
+                            {name: "Set Dosa", price: "₹90", description: "Soft thick dosas served in sets of three"},
+                            {name: "Onion Dosa", price: "₹110", description: "Dosa with caramelized onions"},
+                            {name: "Ghee Roast Dosa", price: "₹130", description: "Crispy dosa roasted in ghee"},
+                            {name: "Mysore Masala Dosa", price: "₹140", description: "Spicy chutney spread dosa with potato filling"},
+                            {name: "Idli (3 pcs)", price: "₹60", description: "Steamed rice and lentil dumplings"},
+                            {name: "Rava Idli", price: "₹70", description: "Semolina steamed cakes with vegetables"},
+                            {name: "Medu Vada", price: "₹80", description: "Crispy lentil donuts"},
+                            {name: "Sambar Vada", price: "₹90", description: "Vada soaked in sambar"},
+                            {name: "Dahi Vada", price: "₹100", description: "Vada in yogurt with chutneys"},
+                            {name: "Uttapam", price: "₹110", description: "Thick pancake with vegetables"},
+                            {name: "Onion Uttapam", price: "₹120", description: "Uttapam topped with onions"},
+                            {name: "Mixed Vegetable Uttapam", price: "₹130", description: "Uttapam with assorted vegetables"}
+                        ],
+                        north: [
+                            {name: "Aloo Paratha", price: "₹90", description: "Wheat bread stuffed with spiced potatoes"},
+                            {name: "Gobi Paratha", price: "₹100", description: "Cauliflower stuffed paratha"},
+                            {name: "Paneer Paratha", price: "₹120", description: "Cottage cheese stuffed paratha"},
+                            {name: "Mixed Paratha", price: "₹110", description: "Paratha with mixed vegetable filling"},
+                            {name: "Methi Paratha", price: "₹95", description: "Fenugreek leaves stuffed paratha"},
+                            {name: "Mooli Paratha", price: "₹85", description: "Radish stuffed paratha"},
+                            {name: "Dal Paratha", price: "₹105", description: "Lentil stuffed paratha"},
+                            {name: "Puri Bhaji", price: "₹80", description: "Deep fried bread with potato curry"},
+                            {name: "Chole Bhature", price: "₹140", description: "Spiced chickpeas with fried bread"},
+                            {name: "Rajma Chawal", price: "₹130", description: "Kidney bean curry with rice"}
+                        ]
+                    },
+                    nonveg: {
+                        south: [
+                            {name: "Chicken Dosa", price: "₹180", description: "Dosa filled with spiced chicken curry"},
+                            {name: "Mutton Dosa", price: "₹220", description: "Dosa with tender mutton filling"},
+                            {name: "Egg Dosa", price: "₹130", description: "Dosa with scrambled egg coating"},
+                            {name: "Fish Uttapam", price: "₹170", description: "Uttapam topped with fish curry"},
+                            {name: "Chicken Uttapam", price: "₹160", description: "Uttapam with chicken pieces"}
+                        ],
+                        north: [
+                            {name: "Chicken Paratha", price: "₹150", description: "Paratha stuffed with spiced chicken"},
+                            {name: "Mutton Paratha", price: "₹180", description: "Paratha filled with mutton keema"},
+                            {name: "Egg Paratha", price: "₹100", description: "Paratha with egg coating"},
+                            {name: "Keema Pav", price: "₹120", description: "Minced meat with bread rolls"},
+                            {name: "Chicken Kulcha", price: "₹140", description: "Leavened bread stuffed with chicken"}
+                        ]
+                    }
+                }
+            },
+            soups: {
+                title: "Soups",
+                icon: "fas fa-soup",
+                categories: {
+                    veg: {
+                        south: [
+                            {name: "Rasam", price: "₹60", description: "Traditional South Indian tangy soup with tamarind"},
+                            {name: "Sambar", price: "₹70", description: "Lentil soup with vegetables"},
+                            {name: "Pepper Rasam", price: "₹65", description: "Spicy black pepper rasam"},
+                            {name: "Tomato Rasam", price: "₹65", description: "Tangy tomato-based rasam"},
+                            {name: "Lemon Rasam", price: "₹70", description: "Refreshing lemon-flavored rasam"},
+                            {name: "Coconut Soup", price: "₹80", description: "Creamy coconut-based soup"},
+                            {name: "Mixed Vegetable Soup", price: "₹75", description: "Healthy soup with mixed vegetables"},
+                            {name: "Spinach Dal Soup", price: "₹70", description: "Nutritious spinach and lentil soup"},
+                            {name: "Drumstick Soup", price: "₹85", description: "Traditional soup with drumsticks"},
+                            {name: "Bottle Gourd Soup", price: "₹65", description: "Light and healthy bottle gourd soup"},
+                            {name: "Beetroot Soup", price: "₹75", description: "Vibrant and nutritious beetroot soup"}
+                        ],
+                        north: [
+                            {name: "Dal Soup", price: "₹60", description: "Creamy lentil soup"},
+                            {name: "Vegetable Clear Soup", price: "₹70", description: "Light clear soup with vegetables"},
+                            {name: "Tomato Soup", price: "₹65", description: "Rich and creamy tomato soup"},
+                            {name: "Sweet Corn Soup", price: "₹75", description: "Sweet corn kernels in savory broth"},
+                            {name: "Mushroom Soup", price: "₹85", description: "Creamy mushroom soup"},
+                            {name: "Palak Soup", price: "₹70", description: "Nutritious spinach soup"},
+                            {name: "Mix Vegetable Soup", price: "₹80", description: "Hearty soup with assorted vegetables"},
+                            {name: "Cabbage Soup", price: "₹65", description: "Light and healthy cabbage soup"},
+                            {name: "Carrot Ginger Soup", price: "₹75", description: "Warming carrot and ginger soup"},
+                            {name: "Pumpkin Soup", price: "₹80", description: "Creamy pumpkin soup with spices"},
+                            {name: "Cauliflower Soup", price: "₹70", description: "Smooth cauliflower soup"}
+                        ]
+                    },
+                    nonveg: {
+                        south: [
+                            {name: "Chicken Rasam", price: "₹120", description: "Tangy rasam with chicken pieces"},
+                            {name: "Mutton Soup", price: "₹150", description: "Rich mutton bone soup"},
+                            {name: "Fish Soup", price: "₹130", description: "South Indian style fish soup"},
+                            {name: "Chicken Pepper Soup", price: "₹110", description: "Spicy chicken soup with black pepper"},
+                            {name: "Prawn Soup", price: "₹140", description: "Coastal style prawn soup"}
+                        ],
+                        north: [
+                            {name: "Chicken Clear Soup", price: "₹100", description: "Light chicken broth with herbs"},
+                            {name: "Chicken Corn Soup", price: "₹110", description: "Chicken soup with sweet corn"},
+                            {name: "Mutton Shorba", price: "₹140", description: "Rich mutton soup with spices"},
+                            {name: "Egg Drop Soup", price: "₹80", description: "Chinese style egg drop soup"},
+                            {name: "Fish Soup", price: "₹120", description: "Delicate fish soup with ginger"},
+                            {name: "Chicken Noodle Soup", price: "₹130", description: "Hearty chicken soup with noodles"}
+                        ]
+                    }
+                }
+            },
+            starters: {
+                title: "Starters",
+                icon: "fas fa-pepper-hot",
+                categories: {
+                    veg: {
+                        south: [
+                            {name: "Gobi Manchurian", price: "₹120", description: "Battered cauliflower in spicy sauce"},
+                            {name: "Paneer 65", price: "₹140", description: "Spicy fried paneer cubes"},
+                            {name: "Mushroom 65", price: "₹130", description: "Crispy fried mushrooms with spices"},
+                            {name: "Baby Corn Manchurian", price: "₹125", description: "Baby corn in tangy Manchurian sauce"},
+                            {name: "Chilli Paneer", price: "₹150", description: "Indo-Chinese paneer with peppers"},
+                            {name: "Vegetable Spring Rolls", price: "₹110", description: "Crispy rolls filled with vegetables"},
+                            {name: "Gobi Chilli", price: "₹115", description: "Spicy cauliflower with chilies"},
+                            {name: "Paneer Tikka", price: "₹160", description: "Grilled paneer with spices"},
+                            {name: "Mushroom Pepper Fry", price: "₹135", description: "Mushrooms with pepper and spices"},
+                            {name: "Vegetable Cutlet", price: "₹90", description: "Mixed vegetable patties"},
+                            {name: "Corn Cheese Balls", price: "₹120", description: "Crispy corn and cheese balls"},
+                            {name: "Stuffed Mushrooms", price: "₹140", description: "Mushrooms stuffed with vegetables"},
+                            {name: "Paneer Chilli Dry", price: "₹145", description: "Dry paneer with onions and peppers"},
+                            {name: "Aloo Chaat", price: "₹80", description: "Spicy potato chaat"},
+                        ],
+                        north: [
+                            {name: "Samosa (2 pcs)", price: "₹60", description: "Crispy pastry with potato filling"},
+                            {name: "Aloo Tikki", price: "₹70", description: "Spiced potato patties"},
+                            {name: "Papdi Chaat", price: "₹85", description: "Crispy wafers with chutneys"},
+                            {name: "Bhel Puri", price: "₹75", description: "Puffed rice mixed with chutneys"},
+                            {name: "Pani Puri", price: "₹60", description: "Hollow puris with flavored water"},
+                            {name: "Dahi Bhalla", price: "₹90", description: "Lentil balls in yogurt"},
+                            {name: "Raj Kachori", price: "₹100", description: "Large kachori with multiple fillings"},
+                            {name: "Pakora", price: "₹80", description: "Mixed vegetable fritters"},
+                            {name: "Paneer Pakora", price: "₹110", description: "Cottage cheese fritters"},
+                            {name: "Bread Pakora", price: "₹70", description: "Bread slices in gram flour batter"},
+                            {name: "Hara Bhara Kabab", price: "₹120", description: "Green vegetable kababs"},
+                            {name: "Dahi Kebab", price: "₹115", description: "Yogurt-based kebabs"},
+                            {name: "Vegetable Seekh Kebab", price: "₹125", description: "Grilled vegetable skewers"},
+                            {name: "Paneer Malai Tikka", price: "₹155", description: "Creamy paneer tikka"}
+                        ]
+                    },
+                    nonveg: {
+                        south: [
+                            {name: "Chicken 65", price: "₹180", description: "Spicy fried chicken pieces"},
+                            {name: "Chicken Manchurian", price: "₹170", description: "Chicken in sweet and sour sauce"},
+                            {name: "Chicken Lollipop", price: "₹200", description: "Drumettes shaped like lollipops"},
+                            {name: "Chilli Chicken", price: "₹175", description: "Chicken with peppers and onions"},
+                            {name: "Fish Fry", price: "₹190", description: "Marinated and fried fish"},
+                            {name: "Prawn Koliwada", price: "₹220", description: "Crispy fried prawns"},
+                            {name: "Mutton Pepper Fry", price: "₹240", description: "Spicy mutton with black pepper"},
+                            {name: "Apollo Fish", price: "₹210", description: "Fish in spicy Apollo sauce"},
+                            {name: "Chicken Pepper Fry", price: "₹185", description: "Chicken with crushed black pepper"},
+                            {name: "Prawn 65", price: "₹230", description: "Spicy fried prawns"},
+                            {name: "Fish 65", price: "₹200", description: "Marinated fried fish cubes"},
+                            {name: "Chicken Ghee Roast", price: "₹195", description: "Chicken roasted in ghee and spices"},
+                            {name: "Mutton Sukka", price: "₹250", description: "Dry mutton curry"},
+                            {name: "Crab Masala", price: "₹280", description: "Spicy crab preparation"}
+                        ],
+                        north: [
+                            {name: "Chicken Tikka", price: "₹160", description: "Grilled chicken pieces"},
+                            {name: "Chicken Seekh Kebab", price: "₹170", description: "Minced chicken grilled on skewers"},
+                            {name: "Mutton Seekh Kebab", price: "₹200", description: "Spiced minced mutton kebabs"},
+                            {name: "Chicken Malai Tikka", price: "₹180", description: "Creamy chicken tikka"},
+                            {name: "Fish Tikka", price: "₹190", description: "Marinated grilled fish"},
+                            {name: "Tandoori Chicken", price: "₹220", description: "Half chicken in tandoor"},
+                            {name: "Chicken Reshmi Kebab", price: "₹175", description: "Silky smooth chicken kebabs"},
+                            {name: "Mutton Boti Kebab", price: "₹210", description: "Tender mutton pieces grilled"},
+                            {name: "Fish Amritsari", price: "₹200", description: "Punjabi style battered fish"},
+                            {name: "Chicken Wings", price: "₹150", description: "Spicy marinated chicken wings"},
+                            {name: "Keema Samosa", price: "₹80", description: "Pastry filled with minced meat"},
+                            {name: "Chicken Cutlet", price: "₹120", description: "Breaded chicken patties"},
+                            {name: "Fish Cutlet", price: "₹130", description: "Spiced fish patties"},
+                            {name: "Egg Pakora", price: "₹90", description: "Boiled egg fritters"},
+                            {name: "Chicken Pakora", price: "₹140", description: "Chicken pieces in gram flour batter"}
+                        ]
+                    }
+                }
+            },
+            maincourse: {
+                title: "Main Course",
+                icon: "fas fa-drumstick-bite",
+                categories: {
+                    veg: {
+                        south: [
+                            {name: "Vegetable Biryani", price: "₹180", description: "Fragrant basmati rice with mixed vegetables"},
+                            {name: "Paneer Biryani", price: "₹220", description: "Biryani with cottage cheese pieces"},
+                            {name: "Mushroom Biryani", price: "₹200", description: "Aromatic rice with mushrooms"},
+                            {name: "Coconut Rice", price: "₹120", description: "Rice flavored with coconut"},
+                            {name: "Lemon Rice", price: "₹100", description: "Tangy lemon flavored rice"},
+                            {name: "Tamarind Rice", price: "₹110", description: "Rice with tamarind and spices"},
+                            {name: "Curd Rice", price: "₹90", description: "Rice mixed with yogurt"},
+                            {name: "Sambar Rice", price: "₹130", description: "Rice served with sambar"},
+                            {name: "Vegetable Pulao", price: "₹150", description: "Spiced rice with vegetables"},
+                            {name: "Tomato Rice", price: "₹115", description: "Rice cooked with tomatoes"},
+                            {name: "Mint Rice", price: "₹125", description: "Fragrant rice with mint"},
+                            {name: "Ghee Rice", price: "₹140", description: "Rice cooked in clarified butter"},
+                            {name: "Vegetable Fried Rice", price: "₹160", description: "Stir-fried rice with vegetables"},
+                            {name: "Paneer Fried Rice", price: "₹180", description: "Fried rice with paneer cubes"},
+                            {name: "Mushroom Fried Rice", price: "₹170", description: "Fried rice with mushrooms"}
+                        ],
+                        north: [
+                            {name: "Veg Thali", price: "₹200", description: "Complete vegetarian meal with various dishes"},
+                            {name: "Punjabi Thali", price: "₹220", description: "North Indian vegetarian thali"},
+                            {name: "Rajasthani Thali", price: "₹240", description: "Traditional Rajasthani meal"},
+                            {name: "Gujarat Thali", price: "₹230", description: "Gujarati style vegetarian thali"},
+                            {name: "Dal Makhani", price: "₹160", description: "Creamy black lentils"},
+                            {name: "Paneer Makhani", price: "₹180", description: "Paneer in rich tomato gravy"},
+                            {name: "Kadai Paneer", price: "₹170", description: "Paneer cooked in kadai with spices"},
+                            {name: "Palak Paneer", price: "₹165", description: "Paneer in spinach gravy"},
+                            {name: "Shahi Paneer", price: "₹185", description: "Royal paneer curry"},
+                            {name: "Malai Kofta", price: "₹175", description: "Cottage cheese balls in gravy"},
+                            {name: "Aloo Gobi", price: "₹140", description: "Potato and cauliflower curry"},
+                            {name: "Bhindi Masala", price: "₹135", description: "Spiced okra curry"},
+                            {name: "Baingan Bharta", price: "₹145", description: "Roasted eggplant curry"},
+                            {name: "Mix Vegetable Curry", price: "₹150", description: "Mixed vegetables in spiced gravy"},
+                            {name: "Chana Masala", price: "₹130", description: "Spiced chickpea curry"}
+                        ]
+                    },
+                    nonveg: {
+                        south: [
+                            {name: "Chicken Biryani", price: "₹250", description: "Aromatic rice with tender chicken"},
+                            {name: "Mutton Biryani", price: "₹300", description: "Premium biryani with mutton"},
+                            {name: "Fish Biryani", price: "₹280", description: "Coastal style fish biryani"},
+                            {name: "Prawn Biryani", price: "₹320", description: "Delicate prawn biryani"},
+                            {name: "Egg Biryani", price: "₹200", description: "Biryani with boiled eggs"},
+                            {name: "Chicken Chettinad", price: "₹220", description: "Spicy Chettinad style chicken"},
+                            {name: "Fish Curry", price: "₹240", description: "Traditional South Indian fish curry"},
+                            {name: "Prawn Curry", price: "₹280", description: "Coconut-based prawn curry"},
+                            {name: "Mutton Curry", price: "₹270", description: "Spiced mutton curry"},
+                            {name: "Chicken Curry", price: "₹210", description: "Home-style chicken curry"},
+                            {name: "Gongura Mutton", price: "₹290", description: "Mutton with sorrel leaves"},
+                            {name: "Chicken Fry", price: "₹200", description: "Dry chicken preparation"},
+                            {name: "Fish Fry", price: "₹230", description: "Pan-fried fish with spices"},
+                            {name: "Chicken Fried Rice", price: "₹190", description: "Fried rice with chicken pieces"},
+                            {name: "Mutton Fried Rice", price: "₹220", description: "Fried rice with mutton"}
+                        ],
+                        north: [
+                            {name: "Non-Veg Thali", price: "₹280", description: "Complete non-vegetarian meal"},
+                            {name: "Punjabi Thali (Non-Veg)", price: "₹300", description: "North Indian non-veg thali"},
+                            {name: "Butter Chicken", price: "₹240", description: "Chicken in rich tomato gravy"},
+                            {name: "Chicken Tikka Masala", price: "₹230", description: "Grilled chicken in spiced gravy"},
+                            {name: "Kadai Chicken", price: "₹220", description: "Chicken cooked in kadai"},
+                            {name: "Chicken Korma", price: "₹235", description: "Mild chicken curry with yogurt"},
+                            {name: "Mutton Rogan Josh", price: "₹280", description: "Kashmiri mutton curry"},
+                            {name: "Keema Curry", price: "₹210", description: "Minced meat curry"},
+                            {name: "Fish Curry", price: "₹250", description: "North Indian style fish curry"},
+                            {name: "Egg Curry", price: "₹160", description: "Boiled eggs in spiced gravy"},
+                            {name: "Chicken Vindaloo", price: "₹245", description: "Spicy Goan chicken curry"},
+                            {name: "Mutton Curry", price: "₹270", description: "Traditional mutton curry"},
+                            {name: "Chicken Do Pyaza", price: "₹225", description: "Chicken with double onions"},
+                            {name: "Fish Masala", price: "₹240", description: "Fish in spiced tomato gravy"},
+                            {name: "Prawn Masala", price: "₹290", description: "Prawns in rich masala gravy"}
+                        ]
+                    }
+                }
+            },
+            continental: {
+                title: "Continental",
+                icon: "fas fa-hamburger",
+                categories: {
+                    veg: {
+                        all: [
+                            {name: "Margherita Pizza", price: "₹220", description: "Classic pizza with tomato sauce and cheese"},
+                            {name: "Veggie Supreme Pizza", price: "₹280", description: "Pizza loaded with vegetables"},
+                            {name: "Mushroom Pizza", price: "₹250", description: "Pizza with mushrooms and herbs"},
+                            {name: "Paneer Pizza", price: "₹270", description: "Indian style pizza with paneer"},
+                            {name: "Pasta Alfredo", price: "₹200", description: "Creamy white sauce pasta"},
+                            {name: "Pasta Arrabbiata", price: "₹180", description: "Spicy tomato sauce pasta"},
+                            {name: "Vegetable Pasta", price: "₹190", description: "Pasta with mixed vegetables"},
+                            {name: "Paneer Pasta", price: "₹210", description: "Pasta with cottage cheese"},
+                            {name: "Veg Burger", price: "₹120", description: "Vegetarian burger with patty"},
+                            {name: "Cheese Burger", price: "₹140", description: "Burger with cheese slice"},
+                            {name: "Paneer Burger", price: "₹160", description: "Burger with paneer patty"},
+                            {name: "Mushroom Burger", price: "₹150", description: "Burger with mushroom patty"},
+                            {name: "French Fries", price: "₹80", description: "Crispy potato fries"},
+                            {name: "Veg Sandwich", price: "₹90", description: "Grilled vegetable sandwich"},
+                            {name: "Club Sandwich", price: "₹120", description: "Multi-layer vegetable sandwich"},
+                            {name: "Paneer Sandwich", price: "₹110", description: "Grilled paneer sandwich"},
+                            {name: "Cheese Sandwich", price: "₹100", description: "Grilled cheese sandwich"},
+                            {name: "Garlic Bread", price: "₹70", description: "Bread with garlic butter"},
+                            {name: "Stuffed Garlic Bread", price: "₹120", description: "Garlic bread with cheese filling"},
+                            {name: "Veg Wrap", price: "₹130", description: "Tortilla wrap with vegetables"},
+                            {name: "Paneer Wrap", price: "₹150", description: "Wrap with spiced paneer"},
+                            {name: "Caesar Salad", price: "₹160", description: "Fresh salad with Caesar dressing"},
+                            {name: "Garden Salad", price: "₹140", description: "Mixed vegetable salad"},
+                            {name: "Greek Salad", price: "₹170", description: "Mediterranean style salad"}
+                        ]
+                    },
+                    nonveg: {
+                        all: [
+                            {name: "Chicken Pizza", price: "₹320", description: "Pizza with chicken toppings"},
+                            {name: "Pepperoni Pizza", price: "₹340", description: "Classic pepperoni pizza"},
+                            {name: "Chicken Supreme Pizza", price: "₹360", description: "Loaded chicken pizza"},
+                            {name: "BBQ Chicken Pizza", price: "₹350", description: "Pizza with BBQ chicken"},
+                            {name: "Chicken Pasta", price: "₹240", description: "Pasta with chicken pieces"},
+                            {name: "Chicken Alfredo", price: "₹260", description: "Creamy chicken pasta"},
+                            {name: "Chicken Burger", price: "₹180", description: "Burger with chicken patty"},
+                            {name: "Fish Burger", price: "₹200", description: "Burger with fish fillet"},
+                            {name: "Chicken Sandwich", price: "₹140", description: "Grilled chicken sandwich"},
+                            {name: "Fish Sandwich", price: "₹160", description: "Fish fillet sandwich"},
+                            {name: "Chicken Wrap", price: "₹170", description: "Tortilla wrap with chicken"},
+                            {name: "Fish Wrap", price: "₹180", description: "Wrap with fish filling"},
+                            {name: "Chicken Caesar Salad", price: "₹200", description: "Caesar salad with grilled chicken"},
+                            {name: "Fish Salad", price: "₹190", description: "Fresh salad with fish"},
+                            {name: "Chicken Wings", price: "₹220", description: "Spicy chicken wings"},
+                            {name: "Fish & Chips", price: "₹240", description: "Battered fish with fries"},
+                            {name: "Chicken Quesadilla", price: "₹190", description: "Grilled tortilla with chicken"},
+                            {name: "Chicken Steak", price: "₹280", description: "Grilled chicken steak"},
+                            {name: "Fish Steak", price: "₹300", description: "Grilled fish steak"},
+                            {name: "Chicken Schnitzel", price: "₹260", description: "Breaded chicken cutlet"},
+                            {name: "BBQ Chicken", price: "₹250", description: "Barbecued chicken pieces"},
+                            {name: "Grilled Chicken", price: "₹230", description: "Herb-grilled chicken"},
+                            {name: "Fish Fillet", price: "₹270", description: "Pan-fried fish fillet"},
+                            {name: "Chicken Nuggets", price: "₹160", description: "Crispy chicken nuggets"}
+                        ]
+                    }
+                }
+            },
+            snacks: {
+                title: "Snacks",
+                icon: "fas fa-cookie-bite",
+                categories: {
+                    veg: {
+                        south: [
+                            {name: "Murukku", price: "₹60", description: "Spiral shaped rice flour snack"},
+                            {name: "Mixture", price: "₹70", description: "Spicy mix of fried ingredients"},
+                            {name: "Banana Chips", price: "₹50", description: "Crispy fried banana slices"},
+                            {name: "Ribbon Pakoda", price: "₹65", description: "Ribbon-shaped fried snack"},
+                            {name: "Thattai", price: "₹55", description: "Flat round rice crackers"},
+                            {name: "Seedai", price: "₹60", description: "Small round fried balls"},
+                            {name: "Chegodilu", price: "₹70", description: "Ring-shaped rice flour snack"},
+                            {name: "Kobbari Burelu", price: "₹80", description: "Coconut-filled sweet snack"},
+                            {name: "Mysore Pak", price: "₹120", description: "Ghee-based sweet"},
+                            {name: "Coconut Burfi", price: "₹100", description: "Coconut sweet squares"},
+                            {name: "Rava Laddu", price: "₹90", description: "Semolina sweet balls"},
+                            {name: "Cashew Cookies", price: "₹110", description: "Cookies with cashew nuts"},
+                            {name: "Butter Cookies", price: "₹85", description: "Crispy butter cookies"}
+                        ],
+                        north: [
+                            {name: "Namkeen", price: "₹60", description: "Spicy fried snack mix"},
+                            {name: "Bhujia", price: "₹65", description: "Thin gram flour noodles"},
+                            {name: "Chakli", price: "₹70", description: "Spiral shaped savory snack"},
+                            {name: "Mathri", price: "₹55", description: "Flaky fried crackers"},
+                            {name: "Khakhra", price: "₹50", description: "Thin crispy wheat crackers"},
+                            {name: "Gujiya", price: "₹80", description: "Sweet dumpling with filling"},
+                            {name: "Kachori", price: "₹75", description: "Fried bread with filling"},
+                            {name: "Dhokla", price: "₹90", description: "Steamed gram flour cake"},
+                            {name: "Fafda", price: "₹85", description: "Crispy gram flour strips"},
+                            {name: "Gathiya", price: "₹70", description: "Thick gram flour noodles"},
+                            {name: "Sev", price: "₹60", description: "Thin fried noodles"},
+                            {name: "Besan Laddu", price: "₹95", description: "Gram flour sweet balls"},
+                            {name: "Motichur Laddu", price: "₹100", description: "Tiny gram flour pearls sweet"}
+                        ]
+                    },
+                    nonveg: {
+                        all: [
+                            {name: "Chicken Popcorn", price: "₹140", description: "Bite-sized fried chicken pieces"},
+                            {name: "Fish Fingers", price: "₹150", description: "Breaded fish strips"},
+                            {name: "Prawn Crackers", price: "₹120", description: "Crispy prawn-flavored crackers"},
+                            {name: "Chicken Strips", price: "₹130", description: "Tender chicken strips"},
+                            {name: "Meat Balls", price: "₹160", description: "Spiced meat balls"},
+                            {name: "Chicken Samosa", price: "₹70", description: "Pastry with chicken filling"},
+                            {name: "Mutton Puffs", price: "₹90", description: "Puff pastry with mutton"},
+                            {name: "Egg Puffs", price: "₹60", description: "Puff pastry with egg"},
+                            {name: "Fish Cutlet", price: "₹110", description: "Fried fish patties"},
+                            {name: "Chicken Cutlet", price: "₹100", description: "Fried chicken patties"},
+                            {name: "Mutton Cutlet", price: "₹130", description: "Fried mutton patties"},
+                            {name: "Keema Rolls", price: "₹120", description: "Rolls filled with minced meat"},
+                            {name: "Chicken Rolls", price: "₹110", description: "Rolls with chicken filling"}
+                        ]
+                    }
+                }
+            },
+            rotinaan: {
+                title: "Roti & Naan",
+                icon: "fas fa-bread-slice",
+                categories: {
+                    veg: {
+                        all: [
+                            {name: "Plain Roti", price: "₹15", description: "Simple wheat bread"},
+                            {name: "Butter Roti", price: "₹20", description: "Roti with butter"},
+                            {name: "Ghee Roti", price: "₹25", description: "Roti with clarified butter"},
+                            {name: "Plain Naan", price: "₹40", description: "Leavened bread from tandoor"},
+                            {name: "Butter Naan", price: "₹50", description: "Naan with butter"},
+                            {name: "Garlic Naan", price: "₹60", description: "Naan with garlic"},
+                            {name: "Cheese Naan", price: "₹80", description: "Naan stuffed with cheese"},
+                            {name: "Paneer Naan", price: "₹90", description: "Naan with paneer filling"},
+                            {name: "Aloo Naan", price: "₹70", description: "Naan stuffed with potato"},
+                            {name: "Kashmiri Naan", price: "₹100", description: "Sweet naan with dry fruits"},
+                            {name: "Kulcha", price: "₹45", description: "Leavened bread with onions"},
+                            {name: "Bhatura", price: "₹35", description: "Deep fried leavened bread"},
+                            {name: "Tandoori Roti", price: "₹30", description: "Roti cooked in tandoor"},
+                            {name: "Missi Roti", price: "₹35", description: "Gram flour mixed roti"},
+                            {name: "Makki Roti", price: "₹40", description: "Corn flour bread"},
+                            {name: "Bajra Roti", price: "₹38", description: "Millet flour bread"},
+                            {name: "Roomali Roti", price: "₹45", description: "Thin handkerchief bread"},
+                            {name: "Laccha Paratha", price: "₹50", description: "Layered flaky bread"},
+                            {name: "Plain Paratha", price: "₹30", description: "Simple layered bread"},
+                            {name: "Pudina Paratha", price: "₹45", description: "Mint flavored paratha"}
+                        ]
+                    },
+                    nonveg: {
+                        all: [
+                            {name: "Chicken Naan", price: "₹120", description: "Naan stuffed with chicken"},
+                            {name: "Mutton Naan", price: "₹150", description: "Naan with mutton filling"},
+                            {name: "Keema Naan", price: "₹140", description: "Naan stuffed with minced meat"},
+                            {name: "Fish Naan", price: "₹130", description: "Naan with fish filling"},
+                            {name: "Egg Naan", price: "₹80", description: "Naan with egg"},
+                            {name: "Chicken Kulcha", price: "₹110", description: "Kulcha with chicken"},
+                            {name: "Mutton Kulcha", price: "₹130", description: "Kulcha with mutton"},
+                            {name: "Keema Kulcha", price: "₹120", description: "Kulcha with minced meat"}
+                        ]
+                    }
+                }
+            },
+            curries: {
+                title: "Curries",
+                icon: "fas fa-mortar-pestle",
+                categories: {
+                    veg: {
+                        south: [
+                            {name: "Sambar", price: "₹80", description: "Lentil curry with vegetables"},
+                            {name: "Rasam", price: "₹70", description: "Tangy tamarind soup"},
+                            {name: "Kootu", price: "₹85", description: "Mixed vegetable and lentil curry"},
+                            {name: "Avial", price: "₹90", description: "Mixed vegetables in coconut curry"},
+                            {name: "Mor Kuzhambu", price: "₹75", description: "Yogurt-based curry"},
+                            {name: "Vendakkai Curry", price: "₹80", description: "Okra curry"},
+                            {name: "Brinjal Curry", price: "₹85", description: "Eggplant curry"},
+                            {name: "Drumstick Curry", price: "₹90", description: "Moringa vegetable curry"},
+                            {name: "Bottle Gourd Curry", price: "₹75", description: "Lauki curry"},
+                            {name: "Ridge Gourd Curry", price: "₹80", description: "Peerkangai curry"},
+                            {name: "Cabbage Curry", price: "₹70", description: "Spiced cabbage curry"},
+                            {name: "Beans Curry", price: "₹85", description: "Green beans curry"},
+                            {name: "Carrot Curry", price: "₹75", description: "Sweet carrot curry"},
+                            {name: "Beetroot Curry", price: "₹80", description: "Nutritious beetroot curry"},
+                            {name: "Pumpkin Curry", price: "₹75", description: "Sweet pumpkin curry"},
+                            {name: "Spinach Dal", price: "₹85", description: "Spinach with lentils"}
+                        ],
+                        north: [
+                            {name: "Dal Tadka", price: "₹90", description: "Tempered yellow lentils"},
+                            {name: "Dal Makhani", price: "₹120", description: "Creamy black lentils"},
+                            {name: "Chana Dal", price: "₹85", description: "Split chickpea curry"},
+                            {name: "Moong Dal", price: "₹80", description: "Split green gram curry"},
+                            {name: "Masoor Dal", price: "₹85", description: "Red lentil curry"},
+                            {name: "Rajma", price: "₹100", description: "Kidney bean curry"},
+                            {name: "Chole", price: "₹95", description: "Chickpea curry"},
+                            {name: "Aloo Jeera", price: "₹75", description: "Cumin flavored potatoes"},
+                            {name: "Aloo Matar", price: "₹85", description: "Potato and peas curry"},
+                            {name: "Matar Paneer", price: "₹110", description: "Peas and cottage cheese curry"},
+                            {name: "Saag Paneer", price: "₹115", description: "Spinach and paneer curry"},
+                            {name: "Kadhi Pakora", price: "₹95", description: "Yogurt curry with fritters"},
+                            {name: "Baingan Bharta", price: "₹90", description: "Mashed eggplant curry"},
+                            {name: "Bhindi Do Pyaza", price: "₹85", description: "Okra with onions"},
+                            {name: "Gobi Matar", price: "₹80", description: "Cauliflower and peas curry"},
+                            {name: "Mix Veg Curry", price: "₹100", description: "Mixed vegetable curry"}
+                        ]
+                    },
+                    nonveg: {
+                        south: [
+                            {name: "Chicken Curry", price: "₹180", description: "Traditional chicken curry"},
+                            {name: "Mutton Curry", price: "₹220", description: "Spiced mutton curry"},
+                            {name: "Fish Curry", price: "₹200", description: "Coconut fish curry"},
+                            {name: "Prawn Curry", price: "₹240", description: "Coastal prawn curry"},
+                            {name: "Crab Curry", price: "₹260", description: "Spicy crab curry"},
+                            {name: "Chicken Chettinad", price: "₹190", description: "Spicy Chettinad chicken"},
+                            {name: "Mutton Chettinad", price: "₹230", description: "Chettinad style mutton"},
+                            {name: "Fish Moilee", price: "₹210", description: "Coconut milk fish curry"},
+                            {name: "Gongura Chicken", price: "₹195", description: "Chicken with sorrel leaves"},
+                            {name: "Gongura Mutton", price: "₹235", description: "Mutton with sorrel leaves"},
+                            {name: "Andhra Chicken", price: "₹185", description: "Spicy Andhra style chicken"},
+                            {name: "Pepper Chicken", price: "₹190", description: "Black pepper chicken curry"},
+                            {name: "Natu Kodi Curry", price: "₹250", description: "Country chicken curry"},
+                            {name: "Kodi Iguru", price: "₹200", description: "Dry chicken curry"},
+                            {name: "Mutton Iguru", price: "₹240", description: "Dry mutton curry"},
+                            {name: "Fish Pulusu", price: "₹195", description: "Tangy fish curry"}
+                        ],
+                        north: [
+                            {name: "Butter Chicken", price: "₹200", description: "Chicken in rich tomato gravy"},
+                            {name: "Chicken Tikka Masala", price: "₹190", description: "Grilled chicken in masala"},
+                            {name: "Chicken Korma", price: "₹185", description: "Mild chicken curry"},
+                            {name: "Chicken Vindaloo", price: "₹195", description: "Spicy Goan chicken curry"},
+                            {name: "Mutton Rogan Josh", price: "₹240", description: "Kashmiri mutton curry"},
+                            {name: "Mutton Korma", price: "₹230", description: "Mild mutton curry"},
+                            {name: "Keema Curry", price: "₹180", description: "Minced meat curry"},
+                            {name: "Egg Curry", price: "₹120", description: "Boiled eggs in spiced gravy"},
+                            {name: "Fish Curry", price: "₹210", description: "North Indian fish curry"},
+                            {name: "Prawn Masala", price: "₹250", description: "Spiced prawn curry"},
+                            {name: "Chicken Saag", price: "₹185", description: "Chicken with spinach"},
+                            {name: "Mutton Saag", price: "₹225", description: "Mutton with spinach"},
+                            {name: "Chicken Jalfrezi", price: "₹180", description: "Chicken with peppers and onions"},
+                            {name: "Mutton Do Pyaza", price: "₹220", description: "Mutton with double onions"},
+                            {name: "Chicken Madras", price: "₹185", description: "South Indian style chicken"},
+                            {name: "Fish Masala", price: "₹195", description: "Fish in spiced tomato gravy"}
+                        ]
+                    }
+                }
+            },
+            beverages: {
+                title: "Beverages",
+                icon: "fas fa-coffee",
+                categories: {
+                    veg: {
+                        hot: [
+                            {name: "Masala Tea", price: "₹25", description: "Spiced Indian tea"},
+                            {name: "Plain Tea", price: "₹20", description: "Regular black tea"},
+                            {name: "Green Tea", price: "₹30", description: "Healthy green tea"},
+                            {name: "Ginger Tea", price: "₹28", description: "Tea with fresh ginger"},
+                            {name: "Lemon Tea", price: "₹25", description: "Tea with lemon"},
+                            {name: "Filter Coffee", price: "₹35", description: "South Indian filter coffee"},
+                            {name: "Black Coffee", price: "₹30", description: "Strong black coffee"},
+                            {name: "Cappuccino", price: "₹60", description: "Coffee with steamed milk"},
+                            {name: "Hot Chocolate", price: "₹70", description: "Rich hot chocolate drink"},
+                            {name: "Herbal Tea", price: "₹40", description: "Caffeine-free herbal tea"}
+                        ],
+                        cold: [
+                            {name: "Lassi", price: "₹50", description: "Yogurt-based drink"},
+                            {name: "Mango Lassi", price: "₹70", description: "Mango flavored lassi"},
+                            {name: "Sweet Lassi", price: "₹55", description: "Sweet yogurt drink"},
+                            {name: "Salt Lassi", price: "₹50", description: "Salted yogurt drink"},
+                            {name: "Buttermilk", price: "₹40", description: "Spiced buttermilk"},
+                            {name: "Fresh Lime Water", price: "₹35", description: "Fresh lime juice"},
+                            {name: "Fresh Orange Juice", price: "₹60", description: "Freshly squeezed orange juice"},
+                            {name: "Apple Juice", price: "₹55", description: "Fresh apple juice"},
+                            {name: "Mango Juice", price: "₹65", description: "Fresh mango juice"},
+                            {name: "Watermelon Juice", price: "₹50", description: "Refreshing watermelon juice"},
+                            {name: "Pineapple Juice", price: "₹60", description: "Fresh pineapple juice"},
+                            {name: "Pomegranate Juice", price: "₹80", description: "Antioxidant-rich pomegranate juice"},
+                            {name: "Cold Coffee", price: "₹70", description: "Iced coffee with milk"},
+                            {name: "Iced Tea", price: "₹45", description: "Chilled tea"},
+                            {name: "Lemonade", price: "₹40", description: "Fresh lemon drink"}
+                        ]
+                    }
+                }
+            },
+            desserts: {
+                title: "Desserts",
+                icon: "fas fa-birthday-cake",
+                categories: {
+                    veg: {
+                        indian: [
+                            {name: "Gulab Jamun", price: "₹80", description: "Sweet dumplings in sugar syrup"},
+                            {name: "Rasgulla", price: "₹70", description: "Spongy cottage cheese balls in syrup"},
+                            {name: "Rasmalai", price: "₹90", description: "Cottage cheese dumplings in milk"},
+                            {name: "Kheer", price: "₹75", description: "Rice pudding with milk"},
+                            {name: "Gajar Halwa", price: "₹85", description: "Carrot pudding with ghee"},
+                            {name: "Moong Dal Halwa", price: "₹90", description: "Lentil pudding"},
+                            {name: "Besan Laddu", price: "₹60", description: "Gram flour sweet balls"},
+                            {name: "Motichur Laddu", price: "₹70", description: "Tiny gram flour pearls sweet"},
+                            {name: "Coconut Laddu", price: "₹65", description: "Coconut sweet balls"},
+                            {name: "Kaju Katli", price: "₹120", description: "Cashew diamond-shaped sweets"},
+                            {name: "Mysore Pak", price: "₹100", description: "Ghee-based Karnataka sweet"},
+                            {name: "Jalebi", price: "₹80", description: "Spiral-shaped crispy sweets"},
+                            {name: "Rabri", price: "₹85", description: "Thickened sweetened milk"},
+                            {name: "Kulfi", price: "₹60", description: "Traditional Indian ice cream"},
+                            {name: "Payasam", price: "₹75", description: "South Indian sweet pudding"},
+                            {name: "Kesari", price: "₹70", description: "Semolina sweet"}
+                        ],
+                        western: [
+                            {name: "Chocolate Cake", price: "₹120", description: "Rich chocolate sponge cake"},
+                            {name: "Black Forest Cake", price: "₹140", description: "Chocolate cake with cherries"},
+                            {name: "Vanilla Cake", price: "₹100", description: "Classic vanilla sponge cake"},
+                            {name: "Strawberry Cake", price: "₹130", description: "Cake with strawberry flavor"},
+                            {name: "Tiramisu", price: "₹150", description: "Italian coffee-flavored dessert"},
+                            {name: "Cheesecake", price: "₹160", description: "Creamy cheese-based cake"},
+                            {name: "Brownies", price: "₹80", description: "Fudgy chocolate brownies"},
+                            {name: "Cookies", price: "₹60", description: "Assorted cookies"}
+                        ]
+                    }
+                }
+            },
+            icecreams: {
+                title: "Ice Creams",
+                icon: "fas fa-ice-cream",
+                categories: {
+                    veg: {
+                        regular: [
+                            {name: "Vanilla Ice Cream", price: "₹60", description: "Classic vanilla flavor"},
+                            {name: "Chocolate Ice Cream", price: "₹65", description: "Rich chocolate flavor"},
+                            {name: "Strawberry Ice Cream", price: "₹70", description: "Fresh strawberry flavor"},
+                            {name: "Mango Ice Cream", price: "₹75", description: "Tropical mango flavor"},
+                            {name: "Butterscotch Ice Cream", price: "₹70", description: "Creamy butterscotch flavor"},
+                            {name: "Black Currant Ice Cream", price: "₹75", description: "Tangy black currant flavor"},
+                            {name: "Pista Ice Cream", price: "₹80", description: "Pistachio flavored ice cream"},
+                            {name: "Kulfi", price: "₹50", description: "Traditional Indian ice cream"},
+                            {name: "Cassata", price: "₹85", description: "Multi-layered ice cream"},
+                            {name: "Tutti Frutti", price: "₹75", description: "Ice cream with candied fruits"},
+                            {name: "Choco Chips", price: "₹80", description: "Vanilla with chocolate chips"}
+                        ],
+                        sundae: [
+                            {name: "Hot Chocolate Fudge", price: "₹120", description: "Ice cream with hot chocolate sauce"},
+                            {name: "Caramel Sundae", price: "₹110", description: "Ice cream with caramel sauce"},
+                            {name: "Fruit Sundae", price: "₹130", description: "Ice cream with fresh fruits"},
+                            {name: "Brownie Sundae", price: "₹140", description: "Ice cream with brownie pieces"},
+                            {name: "Banana Split", price: "₹150", description: "Classic banana split with ice cream"},
+                            {name: "Chocolate Sundae", price: "₹115", description: "Chocolate ice cream with toppings"},
+                            {name: "Strawberry Sundae", price: "₹125", description: "Strawberry ice cream with sauce"},
+                            {name: "Nuts Sundae", price: "₹135", description: "Ice cream topped with nuts"},
+                            {name: "Cookie Sundae", price: "₹140", description: "Ice cream with cookie crumbles"},
+                            {name: "Royal Sundae", price: "₹160", description: "Premium sundae with multiple toppings"}
+                        ]
+                    }
+                }
+            }
+        };
+
+        // Current page state
+        let currentCategory = '';
+        let currentFilter = 'all';
+        let currentCuisine = 'all';
+
+        function showHome() {
+            document.getElementById('home-page').classList.remove('hidden');
+            document.getElementById('category-pages').classList.add('hidden');
+            currentCategory = '';
+        }
+
+        function showCategory(category) {
+            currentCategory = category;
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('category-pages').classList.remove('hidden');
+            renderCategoryPage(category);
+        }
+
+        function renderCategoryPage(category) {
+            const data = menuData[category];
+            const content = document.getElementById('category-content');
+            
+            let html = `
+                <div class="section-header">
+                    <i class="${data.icon} me-3"></i>
+                    <h2 class="d-inline">${data.title}</h2>
+                </div>
+            `;
+
+            // Add search bar for category
+            html += `
+                <div class="row mb-4">
+                    <div class="col-md-8 mx-auto">
+                        <input type="text" id="categorySearch" class="form-control search-bar" 
+                               placeholder="Search in ${data.title}..." onkeyup="filterItems()">
+                    </div>
+                </div>
+            `;
+
+            // Add filter tabs if both veg and non-veg exist
+            if (data.categories.veg && data.categories.nonveg) {
+                html += `
+                    <div class="category-tabs text-center mb-4">
+                        <button class="btn ${currentFilter === 'all' ? 'active' : ''}" onclick="setFilter('all')">All</button>
+                        <button class="btn ${currentFilter === 'veg' ? 'active' : ''}" onclick="setFilter('veg')">Vegetarian</button>
+                        <button class="btn ${currentFilter === 'nonveg' ? 'active' : ''}" onclick="setFilter('nonveg')">Non-Vegetarian</button>
+                    </div>
+                `;
+            }
+
+            // Add cuisine filter if both south and north exist
+            const hasMultipleCuisines = (data.categories.veg && (data.categories.veg.south || data.categories.veg.north)) ||
+                                       (data.categories.nonveg && (data.categories.nonveg.south || data.categories.nonveg.north));
+            
+            if (hasMultipleCuisines) {
+                html += `
+                    <div class="cuisine-filter mb-4">
+                        <button class="btn ${currentCuisine === 'all' ? 'active' : ''}" onclick="setCuisine('all')">All Cuisines</button>
+                        <button class="btn ${currentCuisine === 'south' ? 'active' : ''}" onclick="setCuisine('south')">South Indian</button>
+                        <button class="btn ${currentCuisine === 'north' ? 'active' : ''}" onclick="setCuisine('north')">North Indian</button>
+                    </div>
+                `;
+            }
+
+            html += '<div id="menu-items-container">';
+            html += renderMenuItems(data);
+            html += '</div>';
+
+            content.innerHTML = html;
+        }
+
+        function renderMenuItems(data) {
+            let html = '';
+            
+            Object.keys(data.categories).forEach(type => {
+                if (currentFilter !== 'all' && currentFilter !== type) return;
+                
+                const typeData = data.categories[type];
+                const typeTitle = type === 'veg' ? 'Vegetarian' : 'Non-Vegetarian';
+                
+                Object.keys(typeData).forEach(cuisine => {
+                    if (currentCuisine !== 'all' && currentCuisine !== cuisine && cuisine !== 'all') return;
+                    
+                    let sectionTitle = typeTitle;
+                    if (cuisine === 'south') sectionTitle += ' - South Indian';
+                    else if (cuisine === 'north') sectionTitle += ' - North Indian';
+                    else if (cuisine === 'hot') sectionTitle = 'Hot Beverages';
+                    else if (cuisine === 'cold') sectionTitle = 'Cold Beverages';
+                    else if (cuisine === 'indian') sectionTitle = 'Indian Sweets';
+                    else if (cuisine === 'western') sectionTitle = 'Western Desserts';
+                    else if (cuisine === 'regular') sectionTitle = 'Regular Ice Creams';
+                    else if (cuisine === 'sundae') sectionTitle = 'Sundaes & Specials';
+
+                    html += `<h4 class="mt-4 mb-3 text-orange">${sectionTitle}</h4>`;
+                    
+                    typeData[cuisine].forEach(item => {
+                        html += `
+                            <div class="menu-item" data-name="${item.name.toLowerCase()}" data-description="${item.description.toLowerCase()}">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="flex-grow-1">
+                                        <h5>${item.name}</h5>
+                                        <p class="description mb-2">${item.description}</p>
+                                        <div class="d-flex align-items-center">
+                                            <span class="badge me-2">${type === 'veg' ? '🟢 Veg' : '🔴 Non-Veg'}</span>
+                                            ${cuisine !== 'all' && cuisine !== 'hot' && cuisine !== 'cold' && cuisine !== 'indian' && cuisine !== 'western' && cuisine !== 'regular' && cuisine !== 'sundae' ? 
+                                              `<span class="badge">${cuisine === 'south' ? '🌴 South' : '🏔️ North'}</span>` : ''}
+                                        </div>
+                                    </div>
+                                    <div class="price">${item.price}</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                });
+            });
+            
+            return html;
+        }
+
+        function setFilter(filter) {
+            currentFilter = filter;
+            if (currentCategory) {
+                renderCategoryPage(currentCategory);
+            }
+        }
+
+        function setCuisine(cuisine) {
+            currentCuisine = cuisine;
+            if (currentCategory) {
+                renderCategoryPage(currentCategory);
+            }
+        }
+
+        function filterItems() {
+            const searchTerm = document.getElementById('categorySearch').value.toLowerCase();
+            const items = document.querySelectorAll('.menu-item');
+            
+            items.forEach(item => {
+                const name = item.dataset.name;
+                const description = item.dataset.description;
+                
+                if (name.includes(searchTerm) || description.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Global search functionality
+        document.getElementById('globalSearch').addEventListener('keyup', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            if (searchTerm.length < 2) return;
+            
+            // Search through all categories
+            const results = [];
+            Object.keys(menuData).forEach(categoryKey => {
+                const category = menuData[categoryKey];
+                Object.keys(category.categories).forEach(type => {
+                    Object.keys(category.categories[type]).forEach(cuisine => {
+                        category.categories[type][cuisine].forEach(item => {
+                            if (item.name.toLowerCase().includes(searchTerm) || 
+                                item.description.toLowerCase().includes(searchTerm)) {
+                                results.push({
+                                    item: item,
+                                    category: categoryKey,
+                                    type: type,
+                                    cuisine: cuisine
+                                });
+                            }
+                        });
+                    });
+                });
+            });
+            
+            if (results.length > 0 && e.key === 'Enter') {
+                showSearchResults(results, searchTerm);
+            }
+        });
+
+        function showSearchResults(results, searchTerm) {
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('category-pages').classList.remove('hidden');
+            
+            let html = `
+                <div class="section-header">
+                    <i class="fas fa-search me-3"></i>
+                    <h2 class="d-inline">Search Results for "${searchTerm}"</h2>
+                    <small class="d-block mt-2">${results.length} items found</small>
+                </div>
+            `;
+            
+            results.forEach(result => {
+                const categoryTitle = menuData[result.category].title;
+                const typeTitle = result.type === 'veg' ? 'Vegetarian' : 'Non-Vegetarian';
+                
+                html += `
+                    <div class="menu-item">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="flex-grow-1">
+                                <h5>${result.item.name}</h5>
+                                <p class="description mb-2">${result.item.description}</p>
+                                <div class="d-flex align-items-center">
+                                    <span class="badge me-2">${result.type === 'veg' ? '🟢 Veg' : '🔴 Non-Veg'}</span>
+                                    <span class="badge me-2">📂 ${categoryTitle}</span>
+                                    ${result.cuisine !== 'all' && result.cuisine !== 'hot' && result.cuisine !== 'cold' && result.cuisine !== 'indian' && result.cuisine !== 'western' && result.cuisine !== 'regular' && result.cuisine !== 'sundae' ? 
+                                      `<span class="badge">${result.cuisine === 'south' ? '🌴 South' : '🏔️ North'}</span>` : ''}
+                                </div>
+                            </div>
+                            <div class="price">${result.item.price}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('category-content').innerHTML = html;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            showHome();
+        });
+    </script>
+    <style>
+        .text-orange {
+            color: var(--primary-orange);
+        }
+    </style>
+</body>
+</html>

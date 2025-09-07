@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Menu</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --orange-primary: #ff6b35;
+            --orange-secondary: #ff8c42;
+            --orange-light: #ffb894;
+            --white: #ffffff;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--orange-light) 0%, var(--white) 50%, var(--orange-light) 100%);
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: linear-gradient(45deg, var(--orange-primary), var(--orange-secondary));
+            box-shadow: 0 2px 10px rgba(255, 107, 53, 0.3);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .main-menu {
+            background: linear-gradient(135deg, var(--white) 0%, var(--orange-light) 100%);
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.2);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .category-btn {
+            background: linear-gradient(45deg, var(--orange-primary), var(--orange-secondary));
+            border: none;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .category-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+            color: white;
+        }
+
+        .menu-page {
+            display: none;
+            background: linear-gradient(135deg, var(--white) 0%, var(--orange-light) 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.2);
+        }
+
+        .menu-page.active {
+            display: block;
+        }
+
+        .subcategory {
+            background: linear-gradient(45deg, var(--orange-secondary), var(--orange-primary));
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .menu-item {
+            background: var(--white);
+            border-left: 4px solid var(--orange-primary);
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.2);
+        }
+
+        .item-name {
+            font-weight: bold;
+            color: var(--orange-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .item-price {
+            color: var(--orange-secondary);
+            font-weight: bold;
+            float: right;
+        }
+
+        .back-btn {
+            background: linear-gradient(45deg, var(--orange-secondary), var(--orange-primary));
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .back-btn:hover {
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .page-title {
+            color: var(--orange-primary);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: bold;
+        }
+
+        .home-title {
+            background: linear-gradient(45deg, var(--orange-primary), var(--orange-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fas fa-utensils"></i> Restaurant Menu</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Main Menu -->
+        <div id="mainMenu" class="main-menu">
+            <h1 class="home-title">Welcome to Our Restaurant</h1>
+            <div class="row">
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <button class="btn category-btn w-100" onclick="showMenu('breakfast menu')">
+                        <i class="fas fa-coffee"></i><br>Breakfast
+                    </button>
+                </div>
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <button class="btn category-btn w-100" onclick="showMenu('soups')">
+                        <i class="fas fa-bowl-hot"></i><br>Soups
+                    </button>
+                </div>
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <button class="btn category-btn w-100" onclick="showMenu('starters')">
+                        <i class="fas fa-seedling"></i><br>Starters
+                    </button>
+                </div>
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <button class="btn category-btn w-100" onclick="showMenu('maincourse')">
+                        <i class="fas fa-drumstick-bite"></i><br>Main Course
+                    </button>
+                </div>
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <button class="btn category-btn w-100" onclick="showMenu('chinese')">
+                        <i class="fas fa-dragon"></i><br>Chinese
+                    </button>
+                </div>
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <button class="btn category-btn w-100" onclick="showMenu('continental')">
+                        <i class="fas fa-wine-glass"></i><br>Continental
+                    </button>
+                </div>
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <button class="btn category-btn w-100" onclick="showMenu('snacks')">
+                        <i class="fas fa-cookie-bite"></i><br>Snacks
+                    </button>
+                </div>
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <button class="btn category-btn w-100" onclick="showMenu('beverages')">
+                        <i class="fas fa-glass-cheers"></i><br>Beverages
+                    </button>
+                </div>
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <button class="btn category-btn w-100" onclick="showMenu('desserts')">
+                        <i class="fas fa-birthday-cake"></i><br>Desserts
+                    </button>
+                </div>
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <button class="btn category-btn w-100" onclick="showMenu('icecreams')">
+                        <i class="fas fa-ice-cream"></i><br>Ice Creams
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Breakfast Menu -->
+        <div id="breakfast" class="menu-page">
+            <button class="btn back-btn" onclick="showMainMenu(Breakfast)"><i class="fas fa-arrow-left"></i> Back to Menu</button>
+            <h2 class="page-title">Breakfast Menu</h2>
+            
+            <div class="subcategory">South Indian Vegetarian</div>
+            <div class="menu-item">
+                <div class="item-name">Masala Dosa</div>
+                <div class="item-price">₹120</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Rava Dosa</div>
+                <div class="item-price">₹130</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Set Dosa</div>
+                <div class="item-price">₹110</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Plain Dosa</div>
+                <div class="item-price">₹90</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Ghee Dosa</div>
+                <div class="item-price">₹140</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Idli Sambar</div>
+                <div class="item-price">₹80</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Medu Vada</div>
+                <div class="item-price">₹70</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Rava Idli</div>
+                <div class="item-price">₹85</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Uttapam</div>
+                <div class="item-price">₹120</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Appam with Stew</div>
+                <div class="item-price">₹150</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Puttu</div>
+                <div class="item-price">₹100</div>
+                <div style="clear:both;"></div>
+            </div>
+
+            <div class="subcategory">South Indian Non-Vegetarian</div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Uttapam</div>
+                <div class="item-price">₹180</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Egg Dosa</div>
+                <div class="item-price">₹140</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Dosa</div>
+                <div class="item-price">₹200</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mutton Dosa</div>
+                <div class="item-price">₹250</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Fish Curry with Appam</div>
+                <div class="item-price">₹220</div>
+                <div style="clear:both;"></div>
+            </div>
+
+            <div class="subcategory">North Indian Vegetarian</div>
+            <div class="menu-item">
+                <div class="item-name">Aloo Tikki</div>
+                <div class="item-price">₹60</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chole Bhature</div>
+                <div class="item-price">₹150</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Puri Sabji</div>
+                <div class="item-price">₹120</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Paneer Sandwich</div>
+                <div class="item-price">₹100</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Masala Toast</div>
+                <div class="item-price">₹80</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Vegetable Upma</div>
+                <div class="item-price">₹90</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Poha</div>
+                <div class="item-price">₹70</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Dhokla</div>
+                <div class="item-price">₹85</div>
+                <div style="clear:both;"></div>
+            </div>
+
+            <div class="subcategory">North Indian Non-Vegetarian</div>
+            <div class="menu-item">
+                <div class="item-name">Egg Sandwich</div>
+                <div class="item-price">₹90</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Sandwich</div>
+                <div class="item-price">₹150</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Egg Bhurji</div>
+                <div class="item-price">₹120</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Keema</div>
+                <div class="item-price">₹180</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mutton Keema</div>
+                <div class="item-price">₹220</div>
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+
+        <!-- Soups Menu -->
+        <div id="soups" class="menu-page">
+            <button class="btn back-btn" onclick="showMainMenu()"><i class="fas fa-arrow-left"></i> Back to Menu</button>
+            <h2 class="page-title">Soups Menu</h2>
+            
+            <div class="subcategory">South Indian Vegetarian Soups</div>
+            <div class="menu-item">
+                <div class="item-name">Rasam</div>
+                <div class="item-price">₹60</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Tomato Rasam</div>
+                <div class="item-price">₹70</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Pepper Rasam</div>
+                <div class="item-price">₹75</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Coconut Soup</div>
+                <div class="item-price">₹90</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Drumstick Soup</div>
+                <div class="item-price">₹85</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Vegetable Clear Soup</div>
+                <div class="item-price">₹80</div>
+                <div style="clear:both;"></div>
+            </div>
+
+            <div class="subcategory">South Indian Non-Vegetarian Soups</div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Rasam</div>
+                <div class="item-price">₹120</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mutton Bone Soup</div>
+                <div class="item-price">₹150</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Fish Soup</div>
+                <div class="item-price">₹140</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Crab Soup</div>
+                <div class="item-price">₹180</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Prawn Soup</div>
+                <div class="item-price">₹160</div>
+                <div style="clear:both;"></div>
+            </div>
+
+            <div class="subcategory">North Indian Vegetarian Soups</div>
+            <div class="menu-item">
+                <div class="item-name">Dal Shorba</div>
+                <div class="item-price">₹90</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Palak Soup</div>
+                <div class="item-price">₹85</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Tomato Soup</div>
+                <div class="item-price">₹80</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Sweet Corn Soup</div>
+                <div class="item-price">₹95</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mushroom Soup</div>
+                <div class="item-price">₹110</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mixed Vegetable Soup</div>
+                <div class="item-price">₹90</div>
+                <div style="clear:both;"></div>
+            </div>
+
+            <div class="subcategory">North Indian Non-Vegetarian Soups</div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Clear Soup</div>
+                <div class="item-price">₹130</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Corn Soup</div>
+                <div class="item-price">₹140</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mutton Soup</div>
+                <div class="item-price">₹180</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Egg Drop Soup</div>
+                <div class="item-price">₹100</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Fish Clear Soup</div>
+                <div class="item-price">₹150</div>
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+
+        <!-- Starters Menu -->
+        <div id="starters" class="menu-page">
+            <button class="btn back-btn" onclick="showMainMenu()"><i class="fas fa-arrow-left"></i> Back to Menu</button>
+            <h2 class="page-title">Starters Menu</h2>
+            
+            <div class="subcategory">South Indian Vegetarian Starters</div>
+            <div class="menu-item">
+                <div class="item-name">Gobi Manchurian</div>
+                <div class="item-price">₹150</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Paneer 65</div>
+                <div class="item-price">₹180</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Vegetable Cutlet</div>
+                <div class="item-price">₹120</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Masala Vada</div>
+                <div class="item-price">₹80</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Banana Bajji</div>
+                <div class="item-price">₹60</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Onion Pakoda</div>
+                <div class="item-price">₹70</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mirchi Bajji</div>
+                <div class="item-price">₹65</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Baby Corn Manchurian</div>
+                <div class="item-price">₹160</div>
+                <div style="clear:both;"></div>
+            </div>
+
+            <div class="subcategory">South Indian Non-Vegetarian Starters</div>
+            <div class="menu-item">
+                <div class="item-name">Chicken 65</div>
+                <div class="item-price">₹220</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Manchurian</div>
+                <div class="item-price">₹240</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Fish Fry</div>
+                <div class="item-price">₹200</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Prawn Fry</div>
+                <div class="item-price">₹280</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mutton Pepper Fry</div>
+                <div class="item-price">₹320</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Lollipop</div>
+                <div class="item-price">₹260</div>
+                <div style="clear:both;"></div>
+            </div>
+
+            <div class="subcategory">North Indian Vegetarian Starters</div>
+            <div class="menu-item">
+                <div class="item-name">Paneer Tikka</div>
+                <div class="item-price">₹200</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Hara Bhara Kabab</div>
+                <div class="item-price">₹160</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Aloo Tikki Chaat</div>
+                <div class="item-price">₹90</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Dahi Puri</div>
+                <div class="item-price">₹80</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Bhel Puri</div>
+                <div class="item-price">₹70</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Pani Puri</div>
+                <div class="item-price">₹60</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Samosa Chaat</div>
+                <div class="item-price">₹85</div>
+                <div style="clear:both;"></div>
+            </div>
+
+            <div class="subcategory">North Indian Non-Vegetarian Starters</div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Tikka</div>
+                <div class="item-price">₹250</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Seekh Kabab</div>
+                <div class="item-price">₹220</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Tangdi Kabab</div>
+                <div class="item-price">₹280</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Fish Tikka</div>
+                <div class="item-price">₹240</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mutton Tikka</div>
+                <div class="item-price">₹350</div>
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+
+        <!-- Main Course Menu -->
+        <div id="maincourse" class="menu-page">
+            <button class="btn back-btn" onclick="showMainMenu()"><i class="fas fa-arrow-left"></i> Back to Menu</button>
+            <h2 class="page-title">Main Course Menu</h2>
+            
+            <div class="subcategory">South Indian Vegetarian</div>
+            <div class="menu-item">
+                <div class="item-name">Sambar</div>
+                <div class="item-price">₹120</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Avial</div>
+                <div class="item-price">₹140</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Kootu</div>
+                <div class="item-price">₹130</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Poriyal</div>
+                <div class="item-price">₹110</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Thoran</div>
+                <div class="item-price">₹120</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Kuzhambu</div>
+                <div class="item-price">₹135</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Paneer Curry</div>
+                <div class="item-price">₹180</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Vegetable Korma</div>
+                <div class="item-price">₹160</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Bendi Masala</div>
+                <div class="item-price">₹140</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Brinjal Curry</div>
+                <div class="item-price">₹130</div>
+                <div style="clear:both;"></div>
+            </div>
+
+            <div class="subcategory">South Indian Non-Vegetarian</div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Curry</div>
+                <div class="item-price">₹220</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mutton Curry</div>
+                <div class="item-price">₹280</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Fish Curry</div>
+                <div class="item-price">₹240</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Prawn Curry</div>
+                <div class="item-price">₹300</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Crab Curry</div>
+                <div class="item-price">₹320</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Pepper Fry</div>
+                <div class="item-price">₹250</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mutton Fry</div>
+                <div class="item-price">₹320</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Fish Fry</div>
+                <div class="item-price">₹200</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Chettinad</div>
+                <div class="item-price">₹260</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mutton Chettinad</div>
+                <div class="item-price">₹340</div>
+                <div style="clear:both;"></div>
+            </div>
+
+            <div class="subcategory">North Indian Vegetarian</div>
+            <div class="menu-item">
+                <div class="item-name">Dal Tadka</div>
+                <div class="item-price">₹140</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Dal Makhani</div>
+                <div class="item-price">₹160</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Paneer Butter Masala</div>
+                <div class="item-price">₹200</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Palak Paneer</div>
+                <div class="item-price">₹190</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Matar Paneer</div>
+                <div class="item-price">₹180</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Aloo Gobi</div>
+                <div class="item-price">₹150</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Bhindi Masala</div>
+                <div class="item-price">₹140</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Baingan Bharta</div>
+                <div class="item-price">₹160</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Rajma</div>
+                <div class="item-price">₹150</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chole</div>
+                <div class="item-price">₹140</div>
+                <div style="clear:both;"></div>
+            </div>
+
+            <div class="subcategory">North Indian Non-Vegetarian</div>
+            <div class="menu-item">
+                <div class="item-name">Butter Chicken</div>
+                <div class="item-price">₹280</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Tikka Masala</div>
+                <div class="item-price">₹300</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Korma</div>
+                <div class="item-price">₹260</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mutton Rogan Josh</div>
+                <div class="item-price">₹350</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mutton Korma</div>
+                <div class="item-price">₹340</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Fish Curry</div>
+                <div class="item-price">₹250</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Prawn Masala</div>
+                <div class="item-price">₹320</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Kadai</div>
+                <div class="item-price">₹270</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mutton Kadai</div>
+                <div class="item-price">₹360</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Egg Curry</div>
+                <div class="item-price">₹160</div>
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+
+        <!-- Chinese Menu -->
+        <div id="chinese" class="menu-page">
+            <button class="btn back-btn" onclick="showMainMenu()"><i class="fas fa-arrow-left"></i> Back to Menu</button>
+            <h2 class="page-title">Chinese Menu</h2>
+            
+            <div class="subcategory">Vegetarian</div>
+            <div class="menu-item">
+                <div class="item-name">Vegetable Fried Rice</div>
+                <div class="item-price">₹160</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Vegetable Noodles</div>
+                <div class="item-price">₹150</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Paneer Fried Rice</div>
+                <div class="item-price">₹180</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Paneer Noodles</div>
+                <div class="item-price">₹170</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mushroom Fried Rice</div>
+                <div class="item-price">₹190</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Gobi Manchurian</div>
+                <div class="item-price">₹160</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Vegetable Manchurian</div>
+                <div class="item-price">₹150</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chili Paneer</div>
+                <div class="item-price">₹200</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Honey Chili Potato</div>
+                <div class="item-price">₹140</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Spring Rolls</div>
+                <div class="item-price">₹120</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Veg Momos</div>
+                <div class="item-price">₹100</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Fried Momos</div>
+                <div class="item-price">₹120</div>
+                <div style="clear:both;"></div>
+            </div>
+
+            <div class="subcategory">Non-Vegetarian</div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Fried Rice</div>
+                <div class="item-price">₹220</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Noodles</div>
+                <div class="item-price">₹210</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Egg Fried Rice</div>
+                <div class="item-price">₹180</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Egg Noodles</div>
+                <div class="item-price">₹170</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mutton Fried Rice</div>
+                <div class="item-price">₹280</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Prawn Fried Rice</div>
+                <div class="item-price">₹300</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Fish Fried Rice</div>
+                <div class="item-price">₹260</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Manchurian</div>
+                <div class="item-price">₹240</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chili Chicken</div>
+                <div class="item-price">₹250</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Momos</div>
+                <div class="item-price">₹150</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mutton Momos</div>
+                <div class="item-price">₹180</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Lollipop</div>
+                <div class="item-price">₹260</div>
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+
+        <!-- Continental Menu -->
+        <div id="continental" class="menu-page">
+            <button class="btn back-btn" onclick="showMainMenu()"><i class="fas fa-arrow-left"></i> Back to Menu</button>
+            <h2 class="page-title">Continental Menu</h2>
+            
+            <div class="subcategory">Vegetarian</div>
+            <div class="menu-item">
+                <div class="item-name">Margherita Pizza</div>
+                <div class="item-price">₹300</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Veggie Supreme Pizza</div>
+                <div class="item-price">₹350</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mushroom Pizza</div>
+                <div class="item-price">₹320</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Paneer Tikka Pizza</div>
+                <div class="item-price">₹380</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Pasta Arrabiata</div>
+                <div class="item-price">₹250</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Pasta Alfredo</div>
+                <div class="item-price">₹280</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Vegetable Lasagna</div>
+                <div class="item-price">₹320</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Garlic Bread</div>
+                <div class="item-price">₹120</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Caesar Salad</div>
+                <div class="item-price">₹180</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Greek Salad</div>
+                <div class="item-price">₹200</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mushroom Risotto</div>
+                <div class="item-price">₹350</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Vegetable Sandwich</div>
+                <div class="item-price">₹150</div>
+                <div style="clear:both;"></div>
+            </div>
+
+            <div class="subcategory">Non-Vegetarian</div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Supreme Pizza</div>
+                <div class="item-price">₹450</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Pepperoni Pizza</div>
+                <div class="item-price">₹420</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">BBQ Chicken Pizza</div>
+                <div class="item-price">₹480</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Pasta</div>
+                <div class="item-price">₹350</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Carbonara Pasta</div>
+                <div class="item-price">₹320</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Fish and Chips</div>
+                <div class="item-price">₹380</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Grilled Chicken</div>
+                <div class="item-price">₹400</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Steak</div>
+                <div class="item-price">₹450</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mutton Steak</div>
+                <div class="item-price">₹550</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Caesar Salad</div>
+                <div class="item-price">₹280</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Club Sandwich</div>
+                <div class="item-price">₹220</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Burger</div>
+                <div class="item-price">₹250</div>
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+
+        <!-- Snacks Menu -->
+        <div id="snacks" class="menu-page">
+            <button class="btn back-btn" onclick="showMainMenu()"><i class="fas fa-arrow-left"></i> Back to Menu</button>
+            <h2 class="page-title">Snacks Menu</h2>
+            
+            <div class="subcategory">South Indian Vegetarian</div>
+            <div class="menu-item">
+                <div class="item-name">Mixture</div>
+                <div class="item-price">₹50</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Murukku</div>
+                <div class="item-price">₹40</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Ribbon Pakoda</div>
+                <div class="item-price">₹45</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Thattai</div>
+                <div class="item-price">₹35</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Banana Chips</div>
+                <div class="item-price">₹60</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Tapioca Chips</div>
+                <div class="item-price">₹55</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Jackfruit Chips</div>
+                <div class="item-price">₹70</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Seedai</div>
+                <div class="item-price">₹45</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chegodilu</div>
+                <div class="item-price">₹50</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Boondi</div>
+                <div class="item-price">₹40</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Omapodi</div>
+                <div class="item-price">₹45</div>
+                <div style="clear:both;"></div>
+            </div>
+
+            <div class="subcategory">South Indian Non-Vegetarian</div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Pakoda</div>
+                <div class="item-price">₹120</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Fish Pakoda</div>
+                <div class="item-price">₹140</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mutton Keema Balls</div>
+                <div class="item-price">₹160</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Egg Bonda</div>
+                <div class="item-price">₹80</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Prawn Koliwada</div>
+                <div class="item-price">₹200</div>
+                <div style="clear:both;"></div>
+            </div>
+
+            <div class="subcategory">North Indian Vegetarian</div>
+            <div class="menu-item">
+                <div class="item-name">Samosa</div>
+                <div class="item-price">₹30</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Kachori</div>
+                <div class="item-price">₹35</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Bhujia</div>
+                <div class="item-price">₹40</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Namak Para</div>
+                <div class="item-price">₹45</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mathri</div>
+                <div class="item-price">₹50</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Khakhra</div>
+                <div class="item-price">₹40</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chakli</div>
+                <div class="item-price">₹45</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Dhokla</div>
+                <div class="item-price">₹60</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Handvo</div>
+                <div class="item-price">₹70</div>
+                <div style="clear:both;"></div>
+            </div>
+
+            <div class="subcategory">North Indian Non-Vegetarian</div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Samosa</div>
+                <div class="item-price">₹80</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Mutton Samosa</div>
+                <div class="item-price">₹100</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Chicken Kachori</div>
+                <div class="item-price">₹90</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Egg Pakoda</div>
+                <div class="item-price">₹70</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Fish Cutlet</div>
+                <div class="item-price">₹110</div>
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+
+        <!-- Beverages Menu -->
+        <div id="beverages" class="menu-page">
+            <button class="btn back-btn" onclick="showMainMenu()"><i class="fas fa-arrow-left"></i> Back to Menu</button>
+            <h2 class="page-title">Beverages Menu</h2>
+            
+            <div class="subcategory">Hot Beverages</div>
+            <div class="menu-item">
+                <div class="item-name">Filter Coffee</div>
+                <div class="item-price">₹40</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Black Coffee</div>
+                <div class="item-price">₹35</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Cappuccino</div>
+                <div class="item-price">₹80</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Latte</div>
+                <div class="item-price">₹90</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Espresso</div>
+                <div class="item-price">₹60</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Masala Tea</div>
+                <div class="item-price">₹30</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Green Tea</div>
+                <div class="item-price">₹40</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-name">Lemon Tea</div>
+                <div class="item-price">₹35</div>
+                <div style="clear:both;">
